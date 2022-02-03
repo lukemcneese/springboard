@@ -1,0 +1,5 @@
+git branch -a
+fast forward orders the commits chronologically recursive works through each conflict and often happens when there has been commits on both branches being merged.
+git checkout 
+git branch -d
+Merge conflicts happen when two different branches have two different sets of data in the same file durring a merge. 
