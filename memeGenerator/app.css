@@ -1,0 +1,51 @@
+.image {
+    width: 99%;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+.topText{
+    position:absolute;
+    top: 15px;
+    left: 50%;
+    color:white;
+    font-weight: bold;
+    font-size: xx-large;
+    z-index: 3;
+    transform: translate(-50%, -50%);
+}
+.botText{
+    position:absolute;
+    bottom: 30px;
+    left: 50%;
+    color:white;
+    font-weight: bold;
+    font-size: xx-large;
+    z-index: 3;
+    transform: translate(-50%, -50%);
+}
+.container {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.h1{
+    display: block;
+    font-style: oblique;
+    font-weight: bold;
+    color: orange;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;   
+}
+
+.form {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding-bottom: 5%;
+}
+
+/* Adapted from - https://www.w3schools.com/howto/howto_css_image_text.asp*/
