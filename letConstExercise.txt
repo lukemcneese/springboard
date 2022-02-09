@@ -1,0 +1,5 @@
+const PI = 3.14;
+What is the difference between var and let? - youcanngt redeclare using the let keyword
+What is the difference between var and const? Const cannot be reassigned or redeclared
+What is the difference between let and const? You can reassign with Let
+What is hoisting? Variables are initialized before they are assigned a value in operate sets in compilation.
