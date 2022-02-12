@@ -5,7 +5,7 @@ function filterOutOdds() {
   });
 }
 let filterOutOdds2 = (...args) => args.filter(arg=> arg % 2===0);
-console.log(filterOutOdds2(1,2,3,4));
+//console.log(filterOutOdds2(1,2,3,4));
 
 
 //console.log(findMin(1,4,12,-3)); // -3
@@ -33,10 +33,15 @@ function doubleAndReturnArgs(arr, ...args){
 and return a new array without that item. */
 //console.log(removeRandom([1,2,3,4,5,6]));
 
-function removeRandom(items){//I could not figure out why I would want to use the rest or spread operators to filter would  have called random everytime and i just need the random index generated once
+function removeRandom(items){
   let i = Math.floor(Math.random() * (items.length));
   return items.filter((currentValue,index) => index != i);
 }
+let removeRandom2 = items => {
+  let i = Math.floor(Math.random() * (items.length));
+  return [...items.slice(0,i), ...items.slice(i+1)];
+}
+console.log(removeRandom2([1,2,3,4,5,6]));
 
 
 /** Return a new array with every item in array1 and array2. */
