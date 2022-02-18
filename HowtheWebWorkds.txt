@@ -1,0 +1,21 @@
+What is HTTP? - it is the protocol that is used to contact a server to retrieve data
+What is a URL? - it is the address of the server that is easy to remember and is covered to an IP address by a DNS Server
+What is DNS? - a collection of servers that convert URLs to IP Addresses
+What is a query string? - the parameters passed to a request to a server with key value pairs
+What are two HTTP verbs and how are they different? - POST is requesting data with a parameters with the intention of changing data, GET is retrieving data with a set of paramemters 
+What is an HTTP request? it is a request to a server for data that involves an address date, server location
+What is an HTTP response? data returned to the browser
+What is an HTTP header? Give a couple examples of request and response headers you have seen. it is the "meta Data" for the request, date server name contents, last modified. 
+
+Part 2: Practice Tools
+1.curl https://icanhazdadjoke.com/search?term=pirate
+What does a pirate pay for his corn? A buccaneer!
+What did the pirate say on his 80th birthday? Aye Matey!
+Why couldn't the kid see the pirate movie? Because it was rated arrr!
+Why do pirates not know the alphabet? They always get stuck at "C".
+Why are pirates called pirates? Because they arrr!
+
+2. IP Address = 23.82.12.32
+3. Did one of my projects
+
+
