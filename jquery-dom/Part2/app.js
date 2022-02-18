@@ -10,5 +10,11 @@ function createForm(){
     $('form').append(`<label for="rating">Rating</label>`);
     $('form').append(`<input type="text" id="rating"><br>`);
     $('form').append(`<button type="button"id="submit">Submit Rating</button>`)
-
+    $('div').append(`<ul id="movie-ratings"></ul>`);
+    $('#submit').on("click", function(){
+        $('#movie-ratings').append($("<li>").text($('#movieTitle').val() + " "+ $('#rating').val()).append(`<button type="button" id="x">X</button>`));
+    });
+    $('#movie-ratings').on("click", "#x",function(evt){
+        evt.target.parentElement.remove();//how could i have done this in jquery?
+    });
 }
