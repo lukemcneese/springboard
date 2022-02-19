@@ -131,7 +131,7 @@ $("#shows-list").on("click",".EpisodeBtn",  async function handleShowEpisodes (e
   const showID = $(this).closest(".Show").data("show-id");
   //get the episodes from tvmaze
   const episodes = await getEpisodes(showID);
-  //add the episodes to the episode area
+  //add the episodes to the episode area`
   populateEpisodes(episodes);
   $("#episodes-area").show();
 });
