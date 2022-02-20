@@ -58,8 +58,14 @@ async function fillTable() {
     for(let category =0; category < categories.length; category++){
         head+=`<td>${categories[category].title}</td>`;
     }
-    $('#jeopardy').append(`<th>${head}</tr></th>`);
+    $('#jeopardy').append(`<th>${head}</tr></th><tbody></tbody>`);
     
+    for(let category =0; category < categories.length; category++){
+        let row = "<tr>";
+        //console.log(categories[category].clues[0].question);
+        //categories[category] Need to loop through each category and add the 1st question to the row
+    }
+
 }
 
 /** Handle clicking on a clue: show the question or answer.
