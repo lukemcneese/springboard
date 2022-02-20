@@ -84,12 +84,14 @@ function handleClick(evt) {
  */
 
 function showLoadingView() {
-
+    //$("#jeopardy").empty();
+    $("#loadingscreen").show();
 }
 
 /** Remove the loading spinner and update the button used to fetch data. */
 
 function hideLoadingView() {
+    $("#loadingscreen").hide();
 }
 
 /** Start game:
@@ -100,7 +102,7 @@ function hideLoadingView() {
  * */
 
 async function setupAndStart() {
-    //showLoadingView();
+    showLoadingView();
     //pull in 10 categories
     let res = await axios.get('http://jservice.io/api/categories?count=10');
     //select 6 of the 10 categories
@@ -122,7 +124,7 @@ async function setupAndStart() {
         categories.push(category);
     }
     fillTable();
-    //hideLoadingView();
+    hideLoadingView();
 
 
 }
