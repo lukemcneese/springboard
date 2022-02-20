@@ -54,16 +54,21 @@ function getCategory(catId) {
  */
 
 async function fillTable() {
-    let head = "<tr>"
+    let head = "<thead><tr>"
     for(let category =0; category < categories.length; category++){
         head+=`<td>${categories[category].title}</td>`;
     }
-    $('#jeopardy').append(`<th>${head}</tr></th><tbody></tbody>`);
-    
-    for(let category =0; category < categories.length; category++){
-        let row = "<tr>";
-        //console.log(categories[category].clues[0].question);
-        //categories[category] Need to loop through each category and add the 1st question to the row
+    head += '</tr></thead><tbody></tbody>';
+    let table = document.querySelector("#jeopardy");
+    table.innerHTML = head;
+    //$("#jeopardy").append(head);
+    let row = "<tr>"
+    for(let clueIndex = 0; clueIndex < 5; clueIndex++){
+        for(let category =0; category < categories.length; category++){
+        row+= `<td>${categories[category].clues[clueIndex].question}</td>`;
+        }
+        table.innerHTML +=row;
+        row = "<tr>";
     }
 
 }
@@ -103,26 +108,35 @@ function hideLoadingView() {
 
 async function setupAndStart() {
     showLoadingView();
-    //pull in 10 categories
-    let res = await axios.get('http://jservice.io/api/categories?count=10');
-    //select 6 of the 10 categories
-    let temp =_.sampleSize(res.data,6);
-    for(let i=0; i < temp.length; i++){
-        let res = await axios.get(`http://jservice.io/api/clues?category=${temp[i].id}`);
-        let clues = res.data.map(result =>{
-            return{
-                question: result.question,
-                answer: result.answer,
-                showing: null
-            }
-        });
-        clues = clues.slice(0,5);
-        let category = {
-            title: temp[i].title,
-            clues: clues
-        };
-        categories.push(category);
+    try{
+        //pull in 10 categories
+        let res = await axios.get('http://jservice.io/api/categories?count=10');
+        //select 6 of the 10 categories
+        let temp =_.sampleSize(res.data,6);
+        for(let i=0; i < temp.length; i++){
+            let res = await axios.get(`http://jservice.io/api/clues?category=${temp[i].id}`);
+            let clues = res.data.map(result =>{
+                return{
+                    question: result.question,
+                    answer: result.answer,
+                    showing: null
+                }
+            });
+            clues = clues.slice(0,5);
+            let category = {
+                title: temp[i].title,
+                clues: clues
+            };
+            categories.push(category);
+        }
     }
+    catch(err){
+        console.error("Error response:");
+        console.error(err.response.data);
+        console.error(err.response.status);
+        console.error(err.response.headers);
+    }
+    //console.log(categories);
     fillTable();
     hideLoadingView();
 
@@ -133,6 +147,6 @@ async function setupAndStart() {
 
 // TODO
 
-/** On page load, add event handler for clicking clues */
 
+/** On page load, add event handler for clicking clues */
 // TODO
