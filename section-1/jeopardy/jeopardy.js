@@ -70,7 +70,7 @@ async function fillTable() {
         row = "<tr>";
     }
     table.addEventListener("click", handleClick);
-    //$('#jeopardyTable').on("click","td", handleClick());
+    //$('#jeopardyTable').on("click","td",handleClick);
 }
 
 /** Handle clicking on a clue: show the question or answer.
@@ -116,7 +116,7 @@ function handleClick(evt) {
  */
 
 function showLoadingView() {
-    //$("#jeopardy").empty();
+    //$("#jeopardyTable").empty();
     $("#loadingscreen").show();
 }
 
@@ -136,14 +136,13 @@ function hideLoadingView() {
 async function setupAndStart() {
     showLoadingView();
     try{
-        //pull in 10 categories
-        let res = await axios.get('http://jservice.io/api/categories?count=10');
-        //select 6 of the 10 categories
+        //pull in 100 categories
+        let res = await axios.get('http://jservice.io/api/categories?count=100');
+        //select 6 of the 100 categories
         let temp =_.sampleSize(res.data,6);
         for(let i=0; i < temp.length; i++){
             let res = await axios.get(`http://jservice.io/api/clues?category=${temp[i].id}`);
             let clues = res.data.map(result =>{
-                console.log()
                 return{
                     question: result.question,
                     answer: result.answer,
@@ -151,7 +150,8 @@ async function setupAndStart() {
                     id: String(temp[i].id)+"-"+String(result.id)
                 }
             });
-            clues = clues.slice(0,5);
+            //clues = clues.slice(0,5);
+            clues =_.sampleSize(clues,5);
             let category = {
                 title: temp[i].title,
                 clues: clues

@@ -6,5 +6,21 @@
   #74119c
 */
 h1{
-  align-content: center;
+  text-align: center;
+}
+table{
+  border: 1px white;
+  table-layout: fixed;
+  background-color: #115ff4;
+  text-align: center;
+  color: white;
+  text-shadow: 5px;
+}
+td{
+  width: 167px;
+  height: 100px;
+}
+img{
+  width: 1050px;
+  height: 750;
 }
