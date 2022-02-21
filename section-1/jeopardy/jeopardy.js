@@ -1,4 +1,3 @@
-$(document).ready(setupAndStart());
 // categories is the main data structure for the app; it looks like this:
 
 //  [
@@ -59,18 +58,19 @@ async function fillTable() {
         head+=`<td>${categories[category].title}</td>`;
     }
     head += '</tr></thead><tbody></tbody>';
-    let table = document.querySelector("#jeopardy");
+    let table = document.querySelector("#jeopardyTable");
     table.innerHTML = head;
     //$("#jeopardy").append(head);
     let row = "<tr>"
     for(let clueIndex = 0; clueIndex < 5; clueIndex++){
         for(let category =0; category < categories.length; category++){
-        row+= `<td>${categories[category].clues[clueIndex].question}</td>`;
+        row+= `<td id="${categories[category].clues[clueIndex].id}">?</td>`;
         }
         table.innerHTML +=row;
         row = "<tr>";
     }
-
+    table.addEventListener("click", handleClick);
+    //$('#jeopardyTable').on("click","td", handleClick());
 }
 
 /** Handle clicking on a clue: show the question or answer.
@@ -82,6 +82,33 @@ async function fillTable() {
  * */
 
 function handleClick(evt) {
+    //get the ID
+    let uid = evt.target.id
+    //find the ID in the array
+    for(let clueIndex = 0; clueIndex < 5; clueIndex++){
+        for(let category =0; category < categories.length; category++){
+            if(categories[category].clues[clueIndex].id === uid){
+                let showing = categories[category].clues[clueIndex].showing;
+                if(showing === null){
+                    $(`#${uid}`).text(categories[category].clues[clueIndex].question);
+                    categories[category].clues[clueIndex].showing = "question";
+                    return;
+                }
+                else if(showing === "question"){
+                    $(`#${uid}`).text(categories[category].clues[clueIndex].answer);
+                    categories[category].clues[clueIndex].showing = "answer";
+                    return;
+                }
+                else if(showing === "answer"){
+                    return;
+                }
+                else{
+                    console.log("showing logic error");
+                    console.log(showing);
+                }
+            }
+        }
+    }
 }
 
 /** Wipe the current Jeopardy board, show the loading spinner,
@@ -116,10 +143,12 @@ async function setupAndStart() {
         for(let i=0; i < temp.length; i++){
             let res = await axios.get(`http://jservice.io/api/clues?category=${temp[i].id}`);
             let clues = res.data.map(result =>{
+                console.log()
                 return{
                     question: result.question,
                     answer: result.answer,
-                    showing: null
+                    showing: null,
+                    id: String(temp[i].id)+"-"+String(result.id)
                 }
             });
             clues = clues.slice(0,5);
@@ -139,14 +168,21 @@ async function setupAndStart() {
     //console.log(categories);
     fillTable();
     hideLoadingView();
-
-
 }
 
 /** On click of start / restart button, set up game. */
 
 // TODO
-
+$('#reset').on("click", async function(){
+    categories = [];
+    let table = document.querySelector("#jeopardyTable");
+    while(table.firstChild){
+        table.removeChild(table.firstChild);
+    }
+    //$("#jeopardyTable").empty();
+    setupAndStart();
+});
 
 /** On page load, add event handler for clicking clues */
 // TODO
+$(document).ready(setupAndStart());
