@@ -74,17 +74,38 @@ class StoryList {
    */
 
   async addStory(user, newStory) {
+    let token = user.loginToken;
+    let response = await axios({
+      method: "POST",
+      url: `${BASE_URL}/stories`,
+      data: {token, story:{
+        title : newStory.author,
+        author : newStory.author,
+        url : newStory.url
+      } }
+    });
+    let story = new Story(response.data.story);
+    this.stories.push(story);
+    user.ownStories.push(story);
+    
+    return story;
 
-    //{ storyId, title, author, url, username, createdAt })
-      return new Story({
-        storyId: storyList.length + 1,
-        title: newStory.title, 
-        author: newStory.author, 
-        url: newStory.url, 
-        username: user.username, 
-        createdAt: user.createdAt,
-      });
-
+  }
+  async removeStory(user, story){
+    let token = user.loginToken;
+    try{
+      let response = await axios({
+        method: "DELETE",
+        url: `${BASE_URL}/stories/${story.storyId}`,
+        data: { token: token}
+        });
+      }
+    catch(err){
+      console.log("user attemped to delte a story that was not theirs")
+    }
+    this.stories =  this.stories.filter(s => s.storyId !== story.storyId);
+    user.ownStories = user.ownStories.filter(s => s.storyId !== story.storyId);
+    user.favorites = user.favorites.filter(s => s.storyId !== story.storyId);
   }
 }
 
@@ -202,12 +223,26 @@ class User {
       console.error("loginViaStoredCredentials failed", err);
       return null;
     }
+  } 
+  async addFavorite(story){
+   this.favorites.push(story);
+   await this._updateFavoriteAPI("add",story)
   }
-  static addFavorite(story){
-
-    //currentUser.favorite.append();//the whole story add to the arry of favorite stories
-  }
-  static removeFavorite(story){
-
+  async removeFavorite(story){
+    this.favorites = this.favorites.filter(s => s.storyId !== story.storyId);
+    await this._updateFavoriteAPI("remove",story);
 }
+
+  async _updateFavoriteAPI(apiString, story){
+    let method = apiString === "add" ? "POST" : "DELETE";
+    let token = this.loginToken;
+    await axios({
+      url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      method: method,
+      data: {token},
+    });
+  }
+  isFavorite(story){
+    return this.favorites.some(s => (s.storyId === story.storyId));
+  }
 }

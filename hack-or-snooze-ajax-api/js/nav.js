@@ -44,3 +44,10 @@ function updateNavOnLogin() {
   $navLogOut.show();
   $navUserProfile.text(`${currentUser.username}`).show();
 }
+
+function navFavoriteClick(evt){
+  console.debug("navFavoriteClick")
+  hidePageComponents();
+  putFavoritesOnPage();
+}
+$navFavorites.on("click",navFavoriteClick);

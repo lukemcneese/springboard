@@ -37,3 +37,11 @@
 .story-user {
   display: block;
 }
+
+.star,
+
+.remove{
+  font-size: 0.75rem;
+  margin: 0 2px;
+  cursor: pointer;
+}
