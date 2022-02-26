@@ -7,7 +7,7 @@ const body = document.querySelector('#body');
 form.addEventListener('submit',function(e){
     e.preventDefault();
     const newDiv = document.createElement('div');
-    let newMeme = document.createElement('img');
+    const newMeme = document.createElement('img');
     const removeBtn = document.createElement('button');
     const topDiv = document.createElement('div');
     const botDiv = document.createElement('div');

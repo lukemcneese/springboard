@@ -60,7 +60,7 @@ async function fillTable() {
     head += '</tr></thead><tbody></tbody>';
     let table = document.querySelector("#jeopardyTable");
     table.innerHTML = head;
-    //$("#jeopardy").append(head);
+    //$("#jeopardyTable").append(head);
     let row = "<tr>"
     for(let clueIndex = 0; clueIndex < 5; clueIndex++){
         for(let category =0; category < categories.length; category++){
@@ -166,7 +166,7 @@ async function setupAndStart() {
         console.error(err.response.headers);
     }
     //console.log(categories);
-    fillTable();
+    await fillTable();
     hideLoadingView();
 }
 

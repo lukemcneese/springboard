@@ -11,3 +11,10 @@ def mode(nums):
         >>> mode([2, 2, 3, 3, 2])
         2
     """
+    dict = {}
+    for num in nums:
+        if dict.get(num):
+            dict[num] +=1
+        else:
+            dict[num] = 1
+    return max(dict, key=dict.get)
