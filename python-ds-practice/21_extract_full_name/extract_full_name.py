@@ -14,3 +14,9 @@ def extract_full_names(people):
         >>> extract_full_names(names)
         ['Ada Lovelace', 'Grace Hopper']
     """
+    retList = []
+    for peep in people:
+        first = peep["first"]
+        last = peep["last"]
+        retList.append(f"{first} {last}")
+    return retList

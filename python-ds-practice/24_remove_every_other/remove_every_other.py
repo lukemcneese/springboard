@@ -11,3 +11,5 @@ def remove_every_other(lst):
         >>> lst
         [1, 2, 3, 4, 5]
     """
+    retList = lst.copy()
+    return [num for num in retList if num%2!=0]

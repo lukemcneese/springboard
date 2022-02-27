@@ -25,7 +25,7 @@ function generateStoryMarkup(story) {
   const hostName = story.getHostName();
 
   let showStar = Boolean(currentUser);
-  let showRemove = Boolean(currentUser);
+  let showRemove = Boolean(currentUser);//logic to check to see if it is a users story
 
   return $(`
       <li id="${story.storyId}">
