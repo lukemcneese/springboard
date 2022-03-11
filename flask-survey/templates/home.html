@@ -1,0 +1,11 @@
+{%extends 'base.html' %}
+{% block pagetitle %} {{pagetitle}} {%endblock%}
+{% block headertitle %} {{headertitle}} {%endblock%}
+{% block content %}
+    <p>{{content}}</p>
+
+    <br><form action="/questions/0">
+        <button>Begin the Survey</button>
+    </form>
+{% endblock %}
+
