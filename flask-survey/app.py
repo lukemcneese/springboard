@@ -19,6 +19,9 @@ def home():
 def question(question_num):
     if(len(response) == len(survey.questions)):
         return redirect('/finished')
+    if(len(response) != question_num):
+        flash("Invalid Question")
+        return redirect(f"/questions/{len(response)}")
     question = survey.questions[question_num]
     return render_template("questions.html", question_num = question_num, question=question )
 
