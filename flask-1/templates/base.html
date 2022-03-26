@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/app.css"
+    <title>FOREX Converter</title>
+</head>
+<body>
+    <span>
+        {% for m in msgs %}
+            <p>{{m}}<p>
+        {% endfor %}
+    </span>
+    <form id="conversion" action="/convert" method="GET">
+        <label for="from">Converting From: </label>
+        <input type="text"name="from"><br>
+        <label for="to">Converting To: </label>
+        <input type="text"name="to"><br>
+        <label for="ammt">Ammount</label>
+        <input type="text"name="ammt"><br>
+        <input type="submit" value="Convert">
+    </form>
+    <span>{% block result%}{{returnString}}{%endblock%}</span>
+</body>
+</html>

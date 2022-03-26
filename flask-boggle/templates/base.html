@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/app.css">
+    <title>Boggle</title>
+</head>
+<body>
+    <h1>Lets Play Boggle!</h1>
+    <h2 class="msg"></h2>
+    <table class="board">
+        <tbody>
+            {%for row in board%}
+            <tr>
+                {%for letter in row%}
+                    <td>{{letter}}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <form method="POST" class="add-word">
+        <input name="word" class="word" autofocus>
+        <button>Guess</button>
+    </form>
+    <ul class="words">
+
+    </ul>
+    <script src="https://unpkg.com/jquery"></script>
+    <script src="https://unpkg.com/axios/dist/axios.js"></script>
+    <script src="static/app.js"></script>
+    <script>
+        let game = new BoggleGame(60);
+    </script>
+</body>
+</html>
