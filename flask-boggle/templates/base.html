@@ -21,7 +21,7 @@
             {% endfor %}
         </tbody>
     </table>
-    <form method="POST" class="add-word">
+    <form class="add-word" method = "POST" action="/validate_word">
         <input name="word" class="word" autofocus>
         <button>Guess</button>
     </form>
@@ -31,8 +31,5 @@
     <script src="https://unpkg.com/jquery"></script>
     <script src="https://unpkg.com/axios/dist/axios.js"></script>
     <script src="static/app.js"></script>
-    <script>
-        let game = new BoggleGame(60);
-    </script>
 </body>
 </html>

@@ -18,7 +18,9 @@ def convert():
     toCurrency = request.args.get("to")
     ammount = int(request.args.get("ammt"))
     result = convertCurrency(fromCurrency,toCurrency, ammount)
-    returnString = f'{result["code"]}{result["convertedAmmount"]}'
+    returnString = ""
+    if result.get("covertedAmmount"):
+        returnString = f'{result["code"]}{result["convertedAmmount"]}'
     return render_template("base.html", msgs=result["messages"], returnString = returnString)
 
 def convertCurrency(fromCurrency,toCurrency,ammount):
@@ -35,8 +37,9 @@ def convertCurrency(fromCurrency,toCurrency,ammount):
         result["messages"].add(f'Not a Valid Code: {toCurrency}')
     try:
         result["convertedAmmount"] = "{:.2f}".format(c.convert(fromCurrency,toCurrency,ammount))
-    except:
+    except :
         result["messages"].add(f'Not a ammount: {ammount}')
     c = CurrencyCodes()
     result["code"] = c.get_symbol(toCurrency)
     return result
+## Need to work on error handling, might be easier to write the test and then fix the errors
