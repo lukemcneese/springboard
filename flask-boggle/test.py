@@ -5,6 +5,25 @@ from boggle import Boggle
 
 
 class FlaskTests(TestCase):
+    def setUp(self):
+        self.client = app.test_client()
+        app.config['TESTING'] = True
+    def test_basehtml(self):
+        with self.client:
+            response = self.client.get('/')
+            self.assertIn('board', session)
+            self.assertIsNone(session.get('highscore'))
+            self.assertIsNone(session.get('nplays'))
+            self.assertIn(b'<p>High Score:', response.data)
+            self.assertIn(b'Score:', response.data)
+            self.assertIn(b'Seconds Left:', response.data)
+    def test_invalid_word(self):
+        self.client.get('/')
+        response = self.client.get('/validate-word?word=impossible')
+        self.assertEqual(response.json['result'], 'not-on-board')
 
-    # TODO -- write tests for every view function / feature!
-
+    def non_english_word(self):
+        self.client.get('/')
+        response = self.client.get(
+            '/validate-word?word=fsjdakfkldsfjdslkfjdlksf')
+        self.assertEqual(response.json['result'], 'not-word')

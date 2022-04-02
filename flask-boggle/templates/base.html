@@ -4,32 +4,47 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/app.css">
+    <link rel="stylesheet" href="static/boggle.css">
     <title>Boggle</title>
 </head>
 <body>
-    <h1>Lets Play Boggle!</h1>
-    <h2 class="msg"></h2>
-    <table class="board">
-        <tbody>
-            {%for row in board%}
-            <tr>
-                {%for letter in row%}
-                    <td>{{letter}}</td>
+    <section id="boggle">
+        <h1>Lets Play Boggle!</h1>
+        <p>
+            High Score: 
+            <b>{{ highscore }}</b> 
+            in {{ nplays }} plays
+          </p>
+          <p>
+            Score: <b class="score">0</b>
+            Seconds Left: <b class="timer"></b>
+          </p>
+        <table class="board">
+            <tbody>
+                {%for row in board%}
+                <tr>
+                    {%for letter in row%}
+                        <td>{{letter}}</td>
+                    {% endfor %}
+                </tr>
                 {% endfor %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <form class="add-word" method = "POST" action="/validate_word">
-        <input name="word" class="word" autofocus>
-        <button>Guess</button>
-    </form>
-    <ul class="words">
+            </tbody>
+        </table>
+        <form class="add-word" method = "POST">
+            <input name="word" class="word" autofocus>
+            <button>Guess</button>
+        </form>
+        <ul class="words">
 
-    </ul>
+        </ul>
+        <p class="msg">
+          </p>
+    </section>
     <script src="https://unpkg.com/jquery"></script>
     <script src="https://unpkg.com/axios/dist/axios.js"></script>
     <script src="static/app.js"></script>
+    <script>
+        let game = new BoggleGame("boggle", 60);
+      </script>
 </body>
 </html>
