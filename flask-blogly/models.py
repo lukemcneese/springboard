@@ -15,3 +15,7 @@ class User(db.Model):
     first_name = db.Column(db.String(50), nullable = False)
     last_name = db.Column(db.String(50), nullable = False)
     image_url = db.Column(db.String(255), nullable = True, default="https://upload.wikimedia.org/wikipedia/commons/d/d4/Missing_photo.svg")
+
+    @property
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"    

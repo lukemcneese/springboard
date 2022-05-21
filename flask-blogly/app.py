@@ -25,19 +25,19 @@ def list_users():
     users = User.query.all()
     return render_template("list.html", users=users)
 
-@app.route("users/new", methods=['POST'])
+@app.route("/users/new", methods=['POST'])
 def add_user_redirect():
     """adds a user and redirects to the root route"""
     fname = request.form['fname']
     lname = request.form['lname']
     url = request.form['url']
-    newUser = User(first_name=fname, last_name=lname, image_url=url)
+    newUser = User(first_name=fname, last_name=lname, image_url=url or None)
     db.session.add(newUser)
     db.session.commit()
     return redirect("/users")
     #return redirect(f"/{newUser.id}")
 
-@app.route("/users/new")
+@app.route("/users/new", methods=["GET"])
 def users_new():
     """add a user """
     return render_template("addUser.html")
@@ -46,11 +46,31 @@ def show_user(user_id):
     """Show info on a single user."""
     user = User.query.get_or_404(user_id)
     return render_template("detail.html", user=user)
+@app.route("/users/<int:user_id>/edit")
+def edit_user(user_id):
+    """Edits details on a user"""
+    user = User.query.get_or_404(user_id)
+    return render_template("editUser.html", user=user)
+    
 @app.route("/users/<int:user_id>/edit", methods=["POST"])
-def edit_user(user_id):
-    """Edits details on a user"""
+def edit_user_submit(user_id):
+    """Handles the submission of edit of details on a user"""
+    user = User.query.get_or_404(user_id)
+    user.first_name = request.form['fname']
+    user.last_name = request.form['lname']
+    user.image_url = request.form['url']
+
+    db.session.add(user)
+    db.session.commit()
+
+    return redirect("/users")
+    
 @app.route("/users/<int:user_id>/delete", methods=["POST"])
-def edit_user(user_id):
+def delete_user(user_id):
     """Edits details on a user"""
+    user = User.query.get_or_404(user_id)
+    db.session.delete(user)
+    db.session.commit()
+    return redirect("/users")
 
 
