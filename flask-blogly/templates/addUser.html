@@ -1,0 +1,11 @@
+{%extends 'base.html' %}
+{% block pagetitle %} {{pagetitle}} {%endblock%}
+{% block content %}
+    <h1>Create a User</h1>
+    <form method="POST">
+        <p>First Name<input name="fname" placeholder="Enter a first name"></p>
+        <p>Last Name<input name="lname" placeholder="Enter a last name"></p>
+        <p>Image URL<input name="url" placeholder="provide an image of this user" type="url"></p>
+        <button>Add</button>
+    </form>
+{% endblock %}

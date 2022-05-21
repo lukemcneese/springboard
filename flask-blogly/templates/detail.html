@@ -1,0 +1,13 @@
+{%extends 'base.html' %}
+{% block pagetitle %} {{pagetitle}} {%endblock%}
+{% block content %}
+    <img src={{user.image_url}} width="250" height="200">
+    <h1>{{user.first_name}} {{user.last_name}}</h1>
+    <form action="/users">
+        <button>Add user</button>
+    </form>
+    <form action="/users ">
+        <button>Add user</button>
+    </form>
+{% endblock %}
+<a href="/">Go back</a>
