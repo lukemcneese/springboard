@@ -1,4 +1,4 @@
-from models import User, db
+from models import User, db, Post
 from app import app
 
 # Create all tables
@@ -7,6 +7,7 @@ db.create_all()
 
 # If table isn't empty, empty it
 User.query.delete()
+Post.query.delete()
 
 # Add pets
 alanAlda = User(first_name='Alan', last_name='Alda')
