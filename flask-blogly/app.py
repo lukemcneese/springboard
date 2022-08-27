@@ -1,7 +1,7 @@
 """Blogly application."""
 
 from flask import Flask, request, redirect, render_template
-from models import db, connect_db, User, Post
+from models import db, connect_db, User, Post, Tag
 from flask_debugtoolbar import DebugToolbarExtension
 
 
@@ -119,3 +119,37 @@ def delete_post(post_id):
     db.session.commit()
     return redirect(f'/users/{post.user_id}')
 
+@app.route("/tags", methods = ["GET"])
+def list_tags():
+    """Displays a list of tags"""
+    tags = Tag.query.all()
+    return render_template("tags.html", tags=tags)
+
+@app.route("/tags/<int:tag_id>", methods = ["GET"])
+def display_tag(tag_id):
+    """display detail about an individual tag"""
+    tag = Post.query.get_or_404(tag_id)
+    return render_template('displayTag.html',tag=tag)
+
+@app.route("/tags/new", methods = ["GET"])
+def tags_new():
+    """add a tag"""
+
+
+
+@app.route("/users/new", methods=["GET"])
+def users_new():
+    """add a user """
+    return render_template("addUser.html")
+
+    @app.route("/users/new", methods=['POST'])
+def add_user_redirect():
+    """adds a user and redirects to the root route"""
+    fname = request.form['fname']
+    lname = request.form['lname']
+    url = request.form['url']
+    newUser = User(first_name=fname, last_name=lname, image_url=url or None)
+    db.session.add(newUser)
+    db.session.commit()
+    return redirect("/users")
+    #return redirect(f"/{newUser.id}")

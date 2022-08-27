@@ -9,10 +9,15 @@ db.create_all()
 User.query.delete()
 Post.query.delete()
 
-# Add pets
+# Add users
 alanAlda = User(first_name='Alan', last_name='Alda')
 joelBurton = User(first_name='Bowser', last_name="Burton")
 janeSmith = User(first_name='Spike', last_name="Smith")
+
+#add Post
+alanAlda.
+
+#add Tags to the Post 
 
 # Add new objects to session, so they'll persist
 db.session.add(alanAlda)
