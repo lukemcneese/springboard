@@ -5,6 +5,21 @@
     <form method="POST" action="/users/{{user.id}}/posts/new">
         <p>Title <input name="title" maxlength="50"></p>
         <p>Content <input name="content" size="255"></p>
+        <div>
+            {% for tag in tags %}
+            <div>
+              <input class="form-check-input"
+                     type="checkbox"
+                     value="{{ tag.id }}"
+                     id="tag_{{ tag.id }}"
+                     name="tags">
+              <label class="form-check-label" for="tag_{{ tag.id }}">
+                {{ tag.name }}
+              </label>
+            </div>
+            {% endfor %}
+          </div>
+        
         <button>Add</button>
     </form>
     <form action="/users/{{user.id}}">

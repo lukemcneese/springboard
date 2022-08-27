@@ -4,11 +4,6 @@ from enum import unique
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 db = SQLAlchemy()
-
-def connect_db(app):
-    db.app = app
-    db.init_app(app)
-
 class User(db.Model):
     """User"""
     __tablename__ = "users"
@@ -33,16 +28,20 @@ class Post(db.Model):
     @property
     def friendly_date(self):
         return self.created_at.strftime("%a %b %-d %Y, %-I:%M %p")
+
+class PostTag(db.Model):
+     """PostTag"""
+     __tablename__ = "posts_tags"
+     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), primary_key = True)
+     tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'), primary_key = True)
+
+
 class Tag(db.Model):
     """Tag"""
     __tablename__ = "tags"
     id = db.Column(db.Integer, primary_key = True, autoincrement=True)
     name = db.Column(db.String(50), nullable = False, unique=True)
-
-    Posts = db.relationship(
-        'Post', secondary="posts_tags", backref="tags"
-    )
-class PostTag(db.Model):
-    """PostTag"""
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), primary_key = True)
-    tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'), primary_key = True)
+    posts = db.relationship('Post', secondary="posts_tags", backref="tags")
+def connect_db(app):
+    db.app = app
+    db.init_app(app)

@@ -15,7 +15,7 @@ joelBurton = User(first_name='Bowser', last_name="Burton")
 janeSmith = User(first_name='Spike', last_name="Smith")
 
 #add Post
-alanAlda.
+#alanAlda.
 
 #add Tags to the Post 
 
