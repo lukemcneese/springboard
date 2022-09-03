@@ -1,0 +1,21 @@
+{%extends 'base.html' %}
+{% block pagetitle %} {{pagetitle}} {%endblock%}
+{% block content %}
+    <h1>Welcome back {{username}}!</h1>
+    <h3>below is your current information</h3>
+    <p>Username:{{username}}</p>
+    <p>Email: {{email}}</p>
+    <p>Name: {{first_name}} {{last_name}}</p>
+
+    <h1>Feedback</h1>
+    <ul>
+        {% for feedback in feedbacks %}
+            <li>
+                <b>{{feedback.title}}</b> {{feedback.content}} <a href="/feedback/{{feedback.id}}/update">Edit</a> <form action="/feedback/{{feedback.id}}/delete", method="POST"><button>Delete</button></form>
+            </li>
+        {%endfor%}
+    </ul>
+    <h3><a href="/users/{{username}}/feedback/add">Add More Feedback</a></h3>
+    <h3><form action="/users/{{username}}/delete" method="POST"><button>Delete {{username}} from the Database</button></form></h3>
+
+{% endblock %}
