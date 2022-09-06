@@ -11,9 +11,11 @@
 
 
 <div>
+  <ul>
   {%for song in curr_on_playlist%}
-    <b>{{song.title}}</b> - {{song.artist}}
+    <li><b>{{song.title}}</b> - {{song.artist}} </li>
   {%endfor%}
+  </ul>
 </div>
 
 <p>

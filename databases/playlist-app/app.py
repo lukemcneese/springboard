@@ -8,7 +8,7 @@ from forms import NewSongForPlaylistForm, SongForm, PlaylistForm
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///playlist-app'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-#app.config['SQLALCHEMY_ECHO'] = True
+app.config['SQLALCHEMY_ECHO'] = True
 
 connect_db(app)
 db.drop_all()
@@ -128,14 +128,13 @@ def add_song_to_playlist(playlist_id):
     playlist = Playlist.query.get_or_404(playlist_id)
     form = NewSongForPlaylistForm()
 
-    # Restrict form to songs not already on this playlist
-    #curr_on_playlist = [s.id for s in playlist.songs]
-    #print("***********************************")
-    #print(db.session.query(Song.id,Song.title).all())
-    #print("************************")
-    #form.song.choices = db.session.query(Song.id,Song.title).all()
-    form.song.choices = [(1, 'Christmas Song'), (2, '41'), (3, 'Crash'), (4, 'Truckin'), (5, 'Shakedown Street'), (6, 'Tennessee Jed')]
-    #.filter(Song.id.notin_(curr_on_playlist)
+    curr_on_playlist = [s.id for s in playlist.songs]
+    #form.song.choices = (db.session.query(Song.id, Song.title).filter(Song.id.notin_(curr_on_playlist)).all())
+    songs = Song.query.filter(Song.id.notin_(curr_on_playlist)).all()
+    songs = [(s.id, s.title) for s in songs]
+    form.song.choices = songs
+    #form.song.choices = [(1, 'Christmas Song'), (2, '41'), (3, 'Crash'), (4, 'Truckin'), (5, 'Shakedown Street'), (6, 'Tennessee Jed')]
+
 
     if form.validate_on_submit():
         playlist_song = PlaylistSong(song_id=form.song.data, playlist_id=playlist_id)
