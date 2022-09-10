@@ -58,7 +58,7 @@ def show_all_playlists():
 def show_playlist(playlist_id):
     """Show detail on specific playlist."""
     playlist = Playlist.query.get_or_404(playlist_id)
-    print([s for s in playlist.songs])
+   #print([s for s in playlist.songs])
     curr_on_playlist = [s for s in playlist.songs]
     #print(curr_on_playlist)
     return render_template("playlist.html",playlist=playlist, curr_on_playlist=curr_on_playlist)
@@ -134,8 +134,6 @@ def add_song_to_playlist(playlist_id):
     songs = [(s.id, s.title) for s in songs]
     form.song.choices = songs
     #form.song.choices = [(1, 'Christmas Song'), (2, '41'), (3, 'Crash'), (4, 'Truckin'), (5, 'Shakedown Street'), (6, 'Tennessee Jed')]
-
-
     if form.validate_on_submit():
         playlist_song = PlaylistSong(song_id=form.song.data, playlist_id=playlist_id)
         db.session.add(playlist_song)
