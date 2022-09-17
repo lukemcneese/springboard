@@ -2,7 +2,7 @@ from tokenize import String
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length
-import email_validator
+#import email_validator
 
 
 class LoginForm(FlaskForm):
@@ -16,5 +16,5 @@ class UserAddForm(FlaskForm):
 
     username = StringField('Username', validators=[DataRequired()])
     full_name = StringField('Full Name', validators=[DataRequired()])
-    email = StringField('E-mail', validators=[DataRequired(), Email()])
+    email = StringField('E-mail', validators=[DataRequired()])
     password = PasswordField('Password', validators=[Length(min=6)])

@@ -49,11 +49,13 @@ class Activity(db.Model):
 
 class Park(db.Model):
     """Parks Model"""
-    __tablename_ = "parks"
+    __tablename__ = "parks"
     id = db.Column(db.Text, primary_key=True)
     name = db.Column(db.Text, nullable = False)
     description = db.Column(db.Text, nullable = False)
+    designation = db.Column(db.Text, nullable = False)
     image_url = db.Column(db.Text)
+    image2_url = db.Column(db.Text)
 
 class Experience(db.Model):
     """Table that logs an experience, so a specific user visiting a specific park and doing a specific activity"""
