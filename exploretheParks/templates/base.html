@@ -22,7 +22,7 @@
   <div class="container-fluid">
     <div class="navbar-header">
       <a href="/" class="navbar-brand">
-        <img src="/static/images/header.jpeg" alt="logo">
+        <img src="/static/images/header.jpg" alt="logo">
         <span>Explore the Parks</span>
       </a>
     </div>
@@ -30,7 +30,7 @@
       {% if request.endpoint != None %}
       <li>
         <form class="navbar-form navbar-right" action="/users">
-          <input name="q" class="form-control" placeholder="Search Warbler" id="search">
+          <input name="q" class="form-control" placeholder="Explore the Parks" id="search">
           <button class="btn btn-default">
             <span class="fa fa-search"></span>
           </button>
@@ -41,11 +41,7 @@
       <li><a href="/signup">Sign up</a></li>
       <li><a href="/login">Log in</a></li>
       {% else %}
-      <li>
-        <a href="/users/{{ g.user.id }}">
-          <img src="{{ g.user.image_url }}" alt="{{ g.user.username }}">
-        </a>
-      </li>
+      <li><a href="/users/{{ g.user.id }}">{{g.user.username}}</a></li>
       <li><a href="/logout">Log out</a></li>
       {% endif %}
     </ul>

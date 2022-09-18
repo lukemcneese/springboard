@@ -11,31 +11,9 @@
     <div class = "row">
         <p class = "display-2">Activities</p>
         {% for activity in activities%}
-            <p>{{activity.name}}</p>
+            <p>{{activity.name}}
+                <a href='/{{user.id}}/{{park.id}}/{{activity.id}}'>Add Experience</a>
+            </p>
         {%endfor%}
     </div>
-
-    <!-- <div class="row justify-content-end">
-      <div class="col-sm-9">
-        <div class="row">
-            <div class="col-lg-4 col-md-6 col-12">
-              <div class="card user-card">
-                <div class="card-inner">
-                  <div class="image-wrapper">
-                    <img src="{{ park.image_url}}" alt="parkImage" class="card-hero">
-                  </div>
-                  <div class="card-contents">
-                    <a href="/parks/{{park.id }}" class="card-link">
-                      <img src="{{ park.image2_url}}" alt="Image for {{ park.name }}" class="card-image">
-                      <p><b>{{park.name}}</b></p>
-                    </a>
-                  </div>
-                  <p class="card-description">{{park.designation}}</p>
-                  <p class="card-description">{{park.description}}</p>
-                </div>
-              </div>
-            </div>
-        </div>
-      </div>
-    </div> -->
 {% endblock %}

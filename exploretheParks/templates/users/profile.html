@@ -1,12 +1,26 @@
 {% extends 'base.html' %}
 {% block content %}
-  {% if parks|length == 0 %}
-    <h3>Sorry, no parks found</h3>
-  {% else %}
-    <div class="row justify-content-end">
-      <div class="col-sm-12">
-        <div class="row">
-          {% for park in parks %}
+    {% if experiences|length == 0 %}
+        <h3>Sorry, no experiences found</h3>
+    {% else %}
+        {% for experience in experiences %}
+            <div class="row">
+                <a href='/parks/{{experience.park.park_id}}'>
+                    <img src="{{experience.park.image_url}}" class="col-md-6 float-md-end mb-3 ms-md-3">
+                    <p><b>{{experience.park.name}}</b></p>
+                </a>
+                <p>{{experience.activties}}</p>
+                {%for activity in experience.activities %}
+                    <p>{{activity.activity.name}}</p>
+                    <p>{{activity.date}}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+
+
+<!--
             <div class="col-lg-4 col-md-6 col-12">
               <div class="card user-card">
                 <div class="card-inner">
@@ -24,11 +38,4 @@
                 </div>
               </div>
             </div>
-
-          {% endfor %}
-
-        </div>
-      </div>
-    </div>
-  {% endif %}
-{% endblock %}
+        -->

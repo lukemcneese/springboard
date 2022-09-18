@@ -1,3 +1,4 @@
+from contextlib import nullcontext
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 bcrypt = Bcrypt()
@@ -11,18 +12,20 @@ class User(db.Model):
     email = db.Column( db.Text, nullable=False, unique=True)
     username = db.Column(db.Text, nullable=False, unique=True,)
     full_name = db.Column(db.Text, nullable = False)
+    password = db.Column(db.Text, nullable = False)
     
     def __repr__(self):
         return f"<User #{self.id}: {self.username}, {self.email}>"
     
     @classmethod
-    def signup(cls, username, email, password):
+    def signup(cls, username, email, password, full_name):
         """Sign up user.Hashes password and adds user to system."""
         hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
         user = User(
             username=username,
             email=email,
             password=hashed_pwd,
+            full_name=full_name,
         )
         db.session.add(user)
         return user
@@ -45,7 +48,7 @@ class Activity(db.Model):
     __tablename__ = "activities"
     id = db.Column(db.Text, primary_key=True)
     name = db.Column(db.Text, nullable=False)
-    logo_url = db.Column(db.Text)
+    icon = db.Column(db.Text, nullable=False)
 
 class Park(db.Model):
     """Parks Model"""

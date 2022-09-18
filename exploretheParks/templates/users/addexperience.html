@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="row justify-content-md-center">
+  <div class="col-md-7 col-lg-5">
+    <h2 class="h2">Add an Experience!</h2>
+    <div class = "row">
+        <div class = "col 4">
+            <p>{{user.name}}</p>
+        </div>
+        <div class = "col 4">
+            <img src="{{park.image_url}}" class="col-md-6 float-md-end mb-3 ms-md-3">
+            <p>{{park.name}}</p>
+        </div>
+        <div class = "col 4">
+            {{activity.icon|e}}
+            <p>{{activity.name}}</p>
+        </div>
+
+    </div>
+    <div class = "row">
+        <form method="POST" id="experience_form">
+        {{ form.hidden_tag() }}
+        {% for field in form if field.widget.input_type != 'hidden' %}
+            {% for error in field.errors %}
+            <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+            {{ field(placeholder=field.label.text, class="form-control") }}
+        {% endfor %}
+
+        <button class="btn btn-primary btn-lg btn-block">Add Experience!</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
