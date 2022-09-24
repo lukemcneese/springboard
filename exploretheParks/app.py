@@ -150,18 +150,15 @@ def user_experieces(user_id):
         return redirect("/login")
     user = User.query.get_or_404(user_id)
     experiences = load_user_experiences(user_id)
-    print(experiences)
     return render_template('/users/profile.html',user = user, experiences=experiences )
 
 def load_user_experiences(user_id):
     #get an array of experiences that user has
     experiences = (Experience.query.filter(Experience.user_id == user_id).order_by(Experience.park_id).all())
-    print(experiences)
     currParkId = 0
     park_Activty_List = []
     currentParkListIndex = -1
     for experience in experiences:
-        print(f'**{currParkId} and {experience.park_id} evalulates {currParkId != experience.park_id}**')
         if currParkId != experience.park_id:
             currParkId = experience.park_id
             park = Park.query.get_or_404(currParkId)
@@ -175,13 +172,11 @@ def load_user_experiences(user_id):
             })
             currentParkListIndex +=1#find a better way to add to do the below append
         else:
-            print(currentParkListIndex)
             activity = Activity.query.get_or_404(experience.activity_id)
             park_Activty_List[currentParkListIndex]["activities"].append({
                     "activity": activity,
                     "date": experience.date
             })
-    #print(park_Activty_List)
     return park_Activty_List
     #[
     #    "park": Park1 object, "activites" : [{activitiy object, date}]
