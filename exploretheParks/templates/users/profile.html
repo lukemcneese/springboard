@@ -3,19 +3,24 @@
     {% if experiences|length == 0 %}
         <h3>Sorry, no experiences found</h3>
     {% else %}
-        {% for experience in experiences %}
-            <div class="row">
+        <div class="row">
+          {% for experience in experiences %}
+              <div class="col">
                 <a href='/parks/{{experience.park.park_id}}'>
-                    <img src="{{experience.park.image_url}}" class="col-md-6 float-md-end mb-3 ms-md-3">
-                    <p><b>{{experience.park.name}}</b></p>
+                  <div class="card" style="width: 18rem">
+                    <img src="{{experience.park.image_url}}" class="card-img-top" style="height: 12rem">
+                    <div class="card-body">
+                      <h3 class="card-title">{{experience.park.name}}</h3>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                      <!-- {{experience.activties}} -->
+                      {%for activity in experience.activities %}
+                          <li class="list-group-item">{{activity.activity.name}} - {{activity.date}}</li>
+                      {% endfor %}
+                    </ul>
                 </a>
-                <p>{{experience.activties}}</p>
-                {%for activity in experience.activities %}
-                    <p>{{activity.activity.name}}</p>
-                    <p>{{activity.date}}</p>
-                {% endfor %}
-            </div>
         {% endfor %}
+      </div>
     {% endif %}
 {% endblock %}
 

@@ -10,6 +10,7 @@ ACTIVITY_ICONS = {
     "Climbing":'<i class="fa-solid fa-mountain"></i>',
     "Compass and GPS":'<i class="fa-regular fa-compass"></i>',
     "Dog Sledding":'<i class="fa-solid fa-dog"></i>',
+    "Default": '<i class="fa-brands fa-envira"></i>',
     "Fishing":'<i class="fa-solid fa-fish"></i>',
     "Flying":'<i class="fa-solid fa-plane-departure"></i>',
     "Food":'<i class="fa-solid fa-utensils"></i>',

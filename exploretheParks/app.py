@@ -26,45 +26,7 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 
 
 connect_db(app)
-db.drop_all()
-db.create_all()
-####
-#load Test data into the database
-response = (requests.get(f"{BASE_URL}/parks",params=API_KEY)).json()
-parksdata = response["data"]
-databaseseed = []
-for p in parksdata:
-    newPark = Park(
-        id = p["parkCode"],
-        name = p["name"],
-        designation = p["designation"],
-        description = p["description"],
-        image_url = p["images"][0]["url"],
-        image2_url = p["images"][1]["url"] if len(p["images"]) > 1 else p["images"][0]["url"]
-    )
-    databaseseed.append(newPark)
-
-db.session.add_all(databaseseed)
-db.session.commit()
-print(f' ** {response["limit"]} Parks Loaded *')
-####
-
-####
-#load activities and icons into the database
-activityResponse = (requests.get(f"{BASE_URL}/activities",params=API_KEY)).json()
-activitydata = activityResponse["data"]
-activityDB = []
-for a in activitydata:
-    newActivity = Activity(
-        id = a["id"],
-        name = a["name"],
-        icon = ACTIVITY_ICONS[a["name"]]
-    )
-    activityDB.append(newActivity)
-db.session.add_all(activityDB)
-db.session.commit()
-print(" ** Activities & Icons Loaded *")
-####
+##need to finish moving the setup into the seed file
 
 
 @app.before_request
@@ -146,6 +108,10 @@ def homepage():
 
 @app.route('/parks/<park_id>')
 def park_detail(park_id):
+    if not g.user:
+        flash("Please login.","danger")
+        return redirect("/login")
+
     park = Park.query.get_or_404(park_id)
     activities = load_park_activities(park_id)
     return render_template('/parks/detail.html', park=park, activities=activities,user=g.user)
@@ -157,11 +123,31 @@ def load_park_activities(park_id):
     params.update(API_KEY)
     response = ((requests.get(f"{BASE_URL}/parks",params=params)).json())["data"][0]
     activities = response["activities"]
+    append_new_park_activities_to_db(activities)
     return activities
+
+def append_new_park_activities_to_db(activities):
+    #add any activities not in the db to the Database
+    activityDB = []
+    for activity in activities:
+        if bool(Activity.query.filter_by(id=activity["id"]).first()) == False:
+            newActivity = Activity(
+                id = activity["id"],
+                name = activity["name"],
+                icon = ACTIVITY_ICONS["Default"]
+            )
+            activityDB.append(newActivity)
+    if activityDB:
+        db.session.add_all(activityDB)
+        db.session.commit()
+
 
 @app.route('/users/<user_id>')
 def user_experieces(user_id):
     """Shows the user page that shows the profile of the user as well as their experiences"""
+    if not g.user:
+        flash("Please login.","danger")
+        return redirect("/login")
     user = User.query.get_or_404(user_id)
     experiences = load_user_experiences(user_id)
     print(experiences)
@@ -204,6 +190,9 @@ def load_user_experiences(user_id):
 
 @app.route('/<user_id>/<park_id>/<activity_id>', methods = ["GET", "POST"])
 def addExperience(user_id,park_id,activity_id):
+    if not g.user:
+        flash("Please login.","danger")
+        return redirect("/login")
     form = experienceForm(
         user_id = user_id,
         park_id = park_id,
