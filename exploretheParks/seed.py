@@ -1,5 +1,5 @@
-from app import db, API_KEY, BASE_URL
-from flask import requests
+from app import db, API_KEY, BASE_URL, ACTIVITY_ICONS
+import requests
 from models import Park, Activity
 
 db.drop_all()
