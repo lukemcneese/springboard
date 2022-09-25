@@ -194,6 +194,7 @@ def addExperience(user_id,park_id,activity_id):
         activity_id = activity_id
     )
     if form.validate_on_submit():
+        print(f"*******Date 5/20/1988 - {form.date.data}")
         newExperience = Experience(
             user_id = form.user_id.data,
             activity_id = form.activity_id.data,
