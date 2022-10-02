@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% if experiences|length == 0 %}
+        <h3>Sorry, no experiences found</h3>
+    {% else %}
+        <div class="row">
+          {% for experience in experiences %}
+              <div class="col">
+                <a href='/parks/{{experience.park.park_id}}'>
+                  <div class="card" style="width: 18rem">
+                    <img src="{{experience.park.image_url}}" class="card-img-top" style="height: 12rem">
+                    <div class="card-body">
+                      <h3 class="card-title">{{experience.park.name}}</h3>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                      <!-- {{experience.activties}} -->
+                      {%for activity in experience.activities %}
+                          <li class="list-group-item">{{activity.activity.name}} - {{activity.date}}</li>
+                      {% endfor %}
+                    </ul>
+                </div>
+                </a>
+              </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+{% endblock %}
