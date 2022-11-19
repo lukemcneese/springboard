@@ -209,16 +209,28 @@ describe("remove", function () {
 
 /*********************************** filtering for GET /companies */
 describe("get companies filter", function(){
-  test("filter on name")
-  test("filter on minEmployees")
+  test("filter on name", async function (){
+    const filterName = "C";
+    let results = await Company.filter(filterName)
+    expect(results.length).toEqual(3);
+    });
+  test("filter on name no results", async function(){
+    const filterName = "D";
+    let results = await Company.filter(filterName)
+    expect(results.length).toEqual(0);
+    });
+  test("filter on minEmployees", async function(){
+    const minEmployees = "D";
+    let results = await Company.filter(filterName)
+    expect(results.length).toEqual(0);
+    });
   test("filter on maxEmployees")
   test("filter on name and minEmployees")
   test("filter on name and maxEmployees")
   test("filter on min and maxEmployees")
   test("filter on name, min and maxEmployees")  
+  
+  //Route Test
   test("minEmpolyee greater than max Employee")
   test("filter fields not allowed")
-  
-
-
 });
