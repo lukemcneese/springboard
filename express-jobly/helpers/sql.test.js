@@ -12,15 +12,15 @@ describe("sqlpartialUpdate", function () {
         const dataToUpdate = {firstName: 'Aliya', age: 32}
         const payload = sqlForPartialUpdate(dataToUpdate,jsToSql);
         expect(payload).toEqual({
-            setCols: ['"first_name"=$1', '"age"=$2'],
+            setCols: '"first_name"=$1, "age"=$2',
             values:  ['Aliya', 32]
         })});
   
     test("works: one value", function () {
-        const dataToUpdate = {firstname : 'Aliya'}
+        const dataToUpdate = {firstName : 'Aliya'}
         const payload = sqlForPartialUpdate(dataToUpdate,jsToSql);
         expect(payload).toEqual({
-            setCols: ['"first_name"=$1'],
+            setCols: '"first_name"=$1',
             values: ["Aliya",]
         })});
   

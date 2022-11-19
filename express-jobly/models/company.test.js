@@ -210,27 +210,100 @@ describe("remove", function () {
 /*********************************** filtering for GET /companies */
 describe("get companies filter", function(){
   test("filter on name", async function (){
-    const filterName = "C";
-    let results = await Company.filter(filterName)
+    const filterName = "c";
+    let results = await Company.filter({filterName})
     expect(results.length).toEqual(3);
-    });
+  });
   test("filter on name no results", async function(){
     const filterName = "D";
-    let results = await Company.filter(filterName)
+    let results = await Company.filter({filterName})
     expect(results.length).toEqual(0);
-    });
+  });
   test("filter on minEmployees", async function(){
-    const minEmployees = "D";
-    let results = await Company.filter(filterName)
-    expect(results.length).toEqual(0);
+    const minEmployees = 2;
+    let results = await Company.filter({minEmployees})
+    expect(results.length).toEqual(1);
+    expect(results).toEqual({
+      handle: "c3",
+      name: "C3",
+      description: "Desc3",
+      numEmployees: 3,
+      logoUrl: "http://c3.img",
     });
-  test("filter on maxEmployees")
-  test("filter on name and minEmployees")
-  test("filter on name and maxEmployees")
-  test("filter on min and maxEmployees")
-  test("filter on name, min and maxEmployees")  
+  });
+  test("filter on maxEmployees",async function(){
+    const maxEmployees = 3;
+    let results = await Company.filter({maxEmployees})
+    expect(results.length).toEqual(2);
+    expect(results).toEqual([{
+      handle: "c1",
+      name: "C1",
+      description: "Desc1",
+      numEmployees: 1,
+      logoUrl: "http://c1.img"
+    },{
+      handle: "c2",
+      name: "C2",
+      description: "Desc2",
+      numEmployees: 2,
+      logoUrl: "http://c2.img",
+    }]);
+  });
+  test("filter on name and minEmployees",async function(){
+    const minEmployees = 1;
+    const filterName = 2;
+    let results = await Company.filter({filterName, minEmployees})
+    expect(results.length).toEqual(1);
+    expect(results).toEqual([{
+      handle: "c2",
+      name: "C2",
+      description: "Desc2",
+      numEmployees: 2,
+      logoUrl: "http://c2.img"
+    }]);
+  });
+  test("filter on name and maxEmployees",async function(){
+    const maxEmployees = 2;
+    const filterName = 'c';
+    let results = await Company.filter({filterName, maxEmployees})
+    expect(results.length).toEqual(1);
+    expect(results).toEqual([{
+      handle: "c1",
+      name: "C1",
+      description: "Desc1",
+      numEmployees: 1,
+      logoUrl: "http://c1.img"
+    }]);
+  });
+  test("filter on min and maxEmployees", async function(){
+    const maxEmployees = 3;
+    const minEmployees = 1;
+    let results = await Company.filter({minEmployees, maxEmployees})
+    expect(results.length).toEqual(1);
+    expect(results).toEqual([{
+      handle: "c2",
+      name: "C2",
+      description: "Desc2",
+      numEmployees: 2,
+      logoUrl: "http://c2.img"
+    }]);
+  });
+  test("filter on name, min and maxEmployees", async function(){
+    const maxEmployees = 3;
+    const minEmployees = 1;
+    const filterName = 'c';
+    let results = await Company.filter({filterName,minEmployees, maxEmployees})
+    expect(results.length).toEqual(1);
+    expect(results).toEqual([{
+      handle: "c2",
+      name: "C2",
+      description: "Desc2",
+      numEmployees: 2,
+      logoUrl: "http://c2.img"
+    }]);
+  }); 
   
   //Route Test
-  test("minEmpolyee greater than max Employee")
-  test("filter fields not allowed")
+  //test("minEmpolyee greater than max Employee")
+  //test("filter fields not allowed")
 });

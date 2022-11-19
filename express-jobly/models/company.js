@@ -140,7 +140,17 @@ class Company {
 
     if (!company) throw new NotFoundError(`No company: ${handle}`);
   }
+
+  static async filter({filterName, minEmployees, maxEmployees}){
+    if (filterName){filterName = filterName.toLowerCase()};
+    console.log(filterName)
+    const result = await db.query(`
+      SELECT *
+      FROM companies
+      WHERE name LIKE CONCAT('%',$1,'%')`
+      ,[filterName]);// handle, name, num_employees AS "numEmployees", description, logo_url AS "logoUrl"
+    console.log(result.rows)
+    return result.rows
+  }
 }
-
-
 module.exports = Company;
