@@ -213,6 +213,7 @@ describe("get companies filter", function(){
     const filterName = "c";
     let results = await Company.filter({filterName})
     expect(results.length).toEqual(3);
+    console.log(results)
   });
   test("filter on name no results", async function(){
     const filterName = "D";
@@ -223,13 +224,13 @@ describe("get companies filter", function(){
     const minEmployees = 2;
     let results = await Company.filter({minEmployees})
     expect(results.length).toEqual(1);
-    expect(results).toEqual({
+    expect(results).toEqual([{
       handle: "c3",
       name: "C3",
       description: "Desc3",
       numEmployees: 3,
       logoUrl: "http://c3.img",
-    });
+    }]);
   });
   test("filter on maxEmployees",async function(){
     const maxEmployees = 3;
@@ -303,7 +304,7 @@ describe("get companies filter", function(){
     }]);
   }); 
   
-  //Route Test
-  //test("minEmpolyee greater than max Employee")
-  //test("filter fields not allowed")
+  // Route Test
+  // test("minEmpolyee greater than max Employee")
+  // test("filter fields not allowed")
 });

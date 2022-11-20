@@ -1,5 +1,6 @@
 "use strict";
 
+const { compositionDependencies } = require("mathjs");
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../expressError");
 const { sqlForPartialUpdate } = require("../helpers/sql");
@@ -142,15 +143,41 @@ class Company {
   }
 
   static async filter({filterName, minEmployees, maxEmployees}){
-    if (filterName){filterName = filterName.toLowerCase()};
+    let query = `SELECT handle, 
+                        name, 
+                        num_employees AS "numEmployees", 
+                        description, 
+                        logo_url AS "logoUrl" 
+                FROM companies`;
+    let whereExpression = [];
+    let queryValues = [];
+
+    if (minEmployees > maxEmployees){
+      throw new BadRequestError("Min Employees must be greater than max");
+    }
+
+    if (minEmployees !== undefined) {
+      queryValues.push(minEmployees);
+      whereExpression.push(`num_employees > $${queryValues.length}`);
+    }
+
+    if (maxEmployees !== undefined) {
+      queryValues.push(maxEmployees);
+      whereExpression.push(`num_employees < $${queryValues.length}`);
+    }
     console.log(filterName)
-    const result = await db.query(`
-      SELECT *
-      FROM companies
-      WHERE name LIKE CONCAT('%',$1,'%')`
-      ,[filterName]);// handle, name, num_employees AS "numEmployees", description, logo_url AS "logoUrl"
-    console.log(result.rows)
-    return result.rows
+    if (filterName){
+      queryValues.push(`%${filterName}%`);
+      whereExpression.push(`name ILIKE $${queryValues.length}`);
+    }
+
+    if (whereExpression.length > 0){
+        query += " WHERE " + whereExpression.join(" AND ");
+    }
+    query += " ORDER BY name";
+    
+    const results = await db.query(query,queryValues);
+    return results.rows;
   }
 }
 module.exports = Company;

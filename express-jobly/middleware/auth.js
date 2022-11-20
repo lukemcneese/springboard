@@ -3,6 +3,7 @@
 /** Convenience middleware to handle common auth cases in routes. */
 
 const jwt = require("jsonwebtoken");
+const { re } = require("mathjs");
 const { SECRET_KEY } = require("../config");
 const { UnauthorizedError } = require("../expressError");
 
@@ -42,8 +43,27 @@ function ensureLoggedIn(req, res, next) {
   }
 }
 
+function ensureAdmin(req,res,next){
+  try{
+    if (!res.locals.user.isAdmin) throw new UnauthorizedError();
+    return next();
+  } catch (err) {
+    return next (err);
+  }
+}
+function ensureAdminOrLoggedIn(req, res, next) {
+  try{
+    if (!res.locals.user.isAdmin && !res.locals.user) throw new UnauthorizedError();
+    return next();
+  } catch (err) {
+    return next (err);
+  }
+}
+
 
 module.exports = {
   authenticateJWT,
   ensureLoggedIn,
+  ensureAdmin,
+  ensureAdminOrLoggedIn
 };
