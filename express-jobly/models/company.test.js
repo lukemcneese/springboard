@@ -213,7 +213,6 @@ describe("get companies filter", function(){
     const filterName = "c";
     let results = await Company.filter({filterName})
     expect(results.length).toEqual(3);
-    console.log(results)
   });
   test("filter on name no results", async function(){
     const filterName = "D";

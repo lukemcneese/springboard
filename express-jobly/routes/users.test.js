@@ -46,7 +46,7 @@ describe("POST /users", function () {
     });
   });
 
-  test("works for users: create admin", async function () {
+  test.only("works for users: create admin", async function () {
     const resp = await request(app)
         .post("/users")
         .send({

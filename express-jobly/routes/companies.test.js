@@ -224,6 +224,7 @@ describe("DELETE /companies/:handle", function () {
     const resp = await request(app)
         .delete(`/companies/nope`)
         .set("authorization", `Bearer ${u1Token}`);
+    //console.log(resp)
     expect(resp.statusCode).toEqual(404);
   });
 });
