@@ -29,7 +29,7 @@ class User {
       `INSERT INTO users 
           (username, password, first_name, last_name, email, phone) 
         VALUES ($1, $2, $3, $4, $5, $6) 
-        RETURNING username, password, first_name, last_name, email, phone`,
+        RETURNING username, first_name, last_name, email, phone`,
       [
         username,
         hashedPassword,
@@ -65,27 +65,35 @@ class User {
     );
 
     const user = result.rows[0];
-
-    if (user && (await bcrypt.compare(password, user.password))) {
-      return user;
-    } else {
-      throw new ExpressError('Cannot authenticate', 401);
+    if (user) {
+      // compare hashed password to a new hash from password
+      const isValid = await bcrypt.compare(password, user.password);
+      if (isValid === true) {
+        delete user.password;
+        return user;
+      }
     }
+    throw new ExpressError('Cannot authenicate', 401);
   }
+
+    // if (user && (await bcrypt.compare(password, user.password))) {
+    //   return user;
+    // } else {
+    //   throw new ExpressError('Cannot authenticate', 401);
+    // }
+  //}
 
   /** Returns list of user info:
    *
-   * [{username, first_name, last_name, email, phone}, ...]
+   * [{username, first_name, last_name}]
    *
    * */
 
-  static async getAll(username, password) {
+  static async getAll() {
     const result = await db.query(
       `SELECT username,
                 first_name,
-                last_name,
-                email,
-                phone
+                last_name
             FROM users 
             ORDER BY username`
     );
@@ -113,7 +121,7 @@ class User {
     const user = result.rows[0];
 
     if (!user) {
-      new ExpressError('No such user', 404);
+      throw new ExpressError('No such user', 404);
     }
 
     return user;
@@ -141,6 +149,7 @@ class User {
     if (!user) {
       throw new ExpressError('No such user', 404);
     }
+    delete user.password;
 
     return user;
   }
@@ -162,7 +171,7 @@ class User {
       throw new ExpressError('No such user', 404);
     }
 
-    return true;
+    return true;//not a neccessary line of code, does not meet the api docstring requirements
   }
 }
 

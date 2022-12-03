@@ -22,9 +22,9 @@ beforeEach(async function() {
   }
 
   let sampleUsers = [
-    ["u1", "fn1", "ln1", "email1", "phone1", await _pwd("pwd1"), false],
-    ["u2", "fn2", "ln2", "email2", "phone2", await _pwd("pwd2"), false],
-    ["u3", "fn3", "ln3", "email3", "phone3", await _pwd("pwd3"), true]
+    ["u1", "fn1", "ln1", "email1@domain.com", "phone1", await _pwd("pwd1"), false],
+    ["u2", "fn2", "ln2", "email2@domain.com", "phone2", await _pwd("pwd2"), false],
+    ["u3", "fn3", "ln3", "email3@domain.com", "phone3", await _pwd("pwd3"), true]
   ];
 
   for (let user of sampleUsers) {
@@ -55,6 +55,20 @@ describe("POST /auth/register", function() {
     expect(username).toBe("new_user");
     expect(admin).toBe(false);
   });
+  //test for an invalid email address to be added to the app to fix bug 1
+  test("should not allow a user to register with an invalid email", async function(){
+    const response = await request(app)
+    .post("/auth/register")
+    .send({
+      username: "new_user",
+      password: "new_password",
+      first_name: "new_first",
+      last_name: "new_last",
+      email: "@newuser.com",
+      phone: "1233211221"
+    });
+  expect(response.statusCode).toBe(400);
+  })
 
   test("should not allow a user to register with an existing username", async function() {
     const response = await request(app)
@@ -104,6 +118,12 @@ describe("GET /users", function() {
       .send({ _token: tokens.u1 });
     expect(response.statusCode).toBe(200);
     expect(response.body.users.length).toBe(3);
+    //test the fix to bug 2 that more than basic info was returned on all users
+    expect(response.body.users[0]).toEqual({
+      username : expect.any(String),
+      first_name : expect.any(String),
+      last_name : expect.any(String)
+    });
   });
 });
 
@@ -122,7 +142,7 @@ describe("GET /users/[username]", function() {
       username: "u1",
       first_name: "fn1",
       last_name: "ln1",
-      email: "email1",
+      email: "email1@domain.com",
       phone: "phone1"
     });
   });
@@ -150,18 +170,18 @@ describe("PATCH /users/[username]", function() {
       username: "u1",
       first_name: "new-fn1",
       last_name: "ln1",
-      email: "email1",
+      email: "email1@domain.com",
       phone: "phone1",
-      admin: false,
-      password: expect.any(String)
+      admin: false
     });
   });
 
+  //this address Bug #5
   test("should disallowing patching not-allowed-fields", async function() {
     const response = await request(app)
       .patch("/users/u1")
-      .send({ _token: tokens.u1, admin: true });
-    expect(response.statusCode).toBe(401);
+      .send({ _token: tokens.u1, username: "jesse" });
+    expect(response.statusCode).toBe(400);
   });
 
   test("should return 404 if cannot find", async function() {
