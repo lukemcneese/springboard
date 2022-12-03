@@ -49,8 +49,7 @@ describe("POST /auth/register", function() {
         phone: "1233211221"
       });
     expect(response.statusCode).toBe(201);
-    expect(response.body).toEqual({ token: expect.any(String) });
-
+    expect(response.body).toEqual({ token: expect.any(String) })
     let { username, admin } = jwt.verify(response.body.token, SECRET_KEY);
     expect(username).toBe("new_user");
     expect(admin).toBe(false);
@@ -145,6 +144,7 @@ describe("GET /users/[username]", function() {
       email: "email1@domain.com",
       phone: "phone1"
     });
+    //removed password from this test to ensure that no password was being passed back to address bug#4
   });
 });
 
@@ -174,6 +174,7 @@ describe("PATCH /users/[username]", function() {
       phone: "phone1",
       admin: false
     });
+    //removed password from this test to address bug#4
   });
 
   //this address Bug #5
