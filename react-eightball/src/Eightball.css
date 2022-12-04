@@ -1,0 +1,14 @@
+.eightball {
+    height: 250px;
+    width: 250px;
+    background-color: lightgray;
+    border-radius: 50%;
+    display: inline-block;
+  }
+.eightball-text{
+    text-align: center;
+    padding: 60px;
+    color: white;
+    font-weight: 600;
+    font-size: x-large;
+}
