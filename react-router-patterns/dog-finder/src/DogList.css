@@ -1,0 +1,14 @@
+.previewImg{
+    text-align: center;
+    width: 200px;
+  }
+.dogList{
+    flex-direction: column;
+    border-radius: 10px;
+    margin: 10px;
+    width: 100%;
+    display: flex;
+}
+.dog{
+    flex: 1;
+}
