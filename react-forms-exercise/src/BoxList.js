@@ -22,7 +22,14 @@ const BoxList = () =>{
             <h3>Box</h3>
             <NewBoxForm addBox={addBox}/>
             <div  style={{display : "flex", justifyContent: "space-evenly", flexWrap : "wrap", width : "1000px"}} >
-                {boxes.map(({id, color, height, width}) => <Box id= {id} key={id} color={color} height={height} width = {width} removeBox= {removeBox} />)}
+                {boxes.map(({id, color, height, width}) => 
+                <Box 
+                    id= {id} 
+                    key={id} 
+                    color={color} 
+                    height={height} 
+                    width = {width} 
+                    removeBox= {removeBox} />)}
             </div>
         </div>
     )
