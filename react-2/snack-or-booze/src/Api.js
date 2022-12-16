@@ -11,9 +11,13 @@ const BASE_API_URL = "http://localhost:5000";
 
 class SnackOrBoozeApi {
 
-  static async getSnacks() {
-    const result = await axios.get(`${BASE_API_URL}/snacks`);
+  static async get(items) {
+    const result = await axios.get(`${BASE_API_URL}/${items}`);
     return result.data;
+  }
+  static async set(items, menuType){
+    const result = await axios.post(`${BASE_API_URL}/${menuType}`,items);
+    console.log(result);
   }
 
 }
