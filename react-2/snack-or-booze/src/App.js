@@ -34,9 +34,7 @@ function App() {
     SnackOrBoozeApi.set(drink, "drinks")
   }
 
-  if (isLoading) {
-    return <p>Loading &hellip;</p>;
-  }
+cd
 
   return (
     <div className="App">
