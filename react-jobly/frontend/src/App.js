@@ -13,6 +13,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [companies, setCompanies] = useState([]);
   const [jobs, setJobs] = useState([]);
+  const [currUser, setCurrUser] = useState({});//useContext
+  const [token, setToken] = useState("");
 
   useEffect(() => {
     async function getCompaniesJobs() {
