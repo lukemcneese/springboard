@@ -1,10 +1,47 @@
-import React from "react";
+import React, {useContext} from "react";
 import "./NavBar.css";
 import { NavLink } from "react-router-dom";
 import { Navbar, Nav, NavItem } from "reactstrap";
+import UserContext from "./UserContext";
 
 
-function NavBar() {
+function NavBar({logout}) {
+  const {currUser} = useContext(UserContext)
+
+  function protectedNav(){
+    return (
+      <>
+        <NavItem>
+          <NavLink to="/companies">companies</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink to="/jobs">Jobs</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink to="/profile">Profile</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink to="/" onClick={logout}>
+            Logout {currUser.username}
+          </NavLink>
+        </NavItem>
+      </>
+    )
+  }
+  function unProtectedNav(){
+    return (
+      <>
+        <NavItem>
+          <NavLink to="/login">Login</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink to="/register">Register</NavLink>
+        </NavItem>
+    </>
+    )
+  }
+
+
   return (
     <div>
       <Navbar expand="md">
@@ -12,21 +49,7 @@ function NavBar() {
           Jobly
         </NavLink>
         <Nav className="ml-auto" navbar>
-          <NavItem>
-            <NavLink to="/companies">companies</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink to="/jobs">Jobs</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink to="/login">Login</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink to="/register">Register</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink to="/profile">Profile</NavLink>
-          </NavItem>
+          {currUser ? protectedNav(): unProtectedNav()}
         </Nav>
       </Navbar>
     </div>

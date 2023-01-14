@@ -21,6 +21,7 @@ function Jobs(){
             {jobs.map(({id, title, salary, equity, companyName})=>(
                 <Job
                     key={id}
+                    id = {id}
                     title={title}
                     salary={salary}
                     equity={equity}
