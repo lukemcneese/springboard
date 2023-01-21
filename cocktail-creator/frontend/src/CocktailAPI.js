@@ -73,38 +73,22 @@ class CocktailAPI {
   }
 
 
-  /** Get details on a company by handle. */
-
-  static async getCompany(handle) {
-    let res = await this.request(`companies/${handle}`);
-    return res.company;
-  }
-  static async getCompanines(name) {
-    let res = await this.request("companies", {name});
-    return res.companies;
-  }
-  static async getJobs() {
-    let res = await this.request("jobs");
-    return res.jobs;
-  }
+  /** Handle Logging and and Profile API Calls*/
   static async signup(data){
-    let res = await this.request('auth/register', data, "post");
+    let res = await this.request('auth/register', data, "post", "cocktailCreatorDB");
     return res.token
   }
   static async login(data){
-    let res = await this.request('auth/token', data, "post");
+    let res = await this.request('auth/token', data, "post", "cocktailCreatorDB");
     return res.token;
   }
   static async getCurrentUser(username){
-    let res = await this.request(`users/${username}`);
+    let res = await this.request(`users/${username}`, "cocktailCreatorDB");
     return res.user;
   }
   static async saveProfile(username, data){
-    let res = await this.request(`users/${username}`,data, "patch");
+    let res = await this.request(`users/${username}`,data, "patch", "cocktailCreatorDB");
     return res.user;
-  }
-  static async applyToJob(username, id){
-    await this.request(`users/${username}/jobs/${id}`,{},"post");
   }
 
 }

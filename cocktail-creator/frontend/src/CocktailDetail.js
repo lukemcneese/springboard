@@ -41,7 +41,7 @@ function CocktailDetail(){
 
     return (
         <>
-            <img src={`${cocktail.strDrinkThumb}`} alt={`${cocktail.strDrink}`} width="300px"/>
+            <img src={`${cocktail.strDrinkThumb}`} alt={`${cocktail.strDrink}`} width="200px"/>
             <h4>{cocktail.strDrink}</h4>
             <p>Cateogry: {cocktail.strCategory}</p>
             <p>Glass: {cocktail.strGlass}</p>

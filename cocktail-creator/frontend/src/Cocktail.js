@@ -7,7 +7,7 @@ const Cocktail = ({idDrink, strDrink, strDrinkThumb, strCategory}) =>{
         <div className="CocktailCard">
             <p>Drink: {strDrink}</p>
             <p>Cateogry: {strCategory}</p>
-            <img src={`${strDrinkThumb}`} alt={{strDrink}} width="300px"/>
+            <img src={`${strDrinkThumb}`} alt={{strDrink}} width="200px"/>
         </div>
     </Link>
     );
