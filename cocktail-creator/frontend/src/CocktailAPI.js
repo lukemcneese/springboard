@@ -34,17 +34,21 @@ class CocktailAPI {
         throw Array.isArray(message) ? message : [message];
         }
     }else if (db === "theCocktailDB"){
-        const url = "www.thecocktaildb.com/api/json/v1/"
-        const apiKEY = "1"
+        const cocktailUrl = "https://www.thecocktaildb.com/api/json/v2/"
+        const apiKEY = "9973533/"
         if (method !== "get") console.error("API Error: only GET Methods allowed for CocktailDB")
         try {
-            return (await axios(url + apiKEY + endpoint +".php").data)
+            const reqString = cocktailUrl + apiKEY + endpoint +".php";
+            const resp = (await axios(reqString)).data;
+            console.log("Response:",resp);
+            return resp;
         } catch (err){
             console.error("API Error:", err.response);
         }
 
     }
   }
+
 
   // Individual API routes
 
