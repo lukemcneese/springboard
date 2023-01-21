@@ -38,14 +38,15 @@ class CocktailAPI {
         const apiKEY = "9973533/"
         if (method !== "get") console.error("API Error: only GET Methods allowed for CocktailDB")
         try {
-            const reqString = cocktailUrl + apiKEY + endpoint +".php";
-            const resp = (await axios(reqString)).data;
-            console.log("Response:",resp);
+            const url = cocktailUrl + apiKEY + endpoint +".php";
+            const params = (method === "get")
+            ? data
+            : {};
+            const resp = (await axios({url, params})).data;
             return resp;
         } catch (err){
             console.error("API Error:", err.response);
         }
-
     }
   }
 
@@ -55,6 +56,20 @@ class CocktailAPI {
   static async getRandom(){
       let res = await this.request("random","random", "get", "theCocktailDB")
       return res.drinks[0];
+  }
+
+  static async getCocktailsName(name="") {
+    if (name === ""){
+      let res =  await this.getRandom();
+      return res;
+    }
+    let res = await this.request("search", {"s":name}, "get", "theCocktailDB");
+    return res.drinks;
+    //eventually request the local DB as well and append the results
+  }
+  static async getCocktail(id) {
+    let res = await this.request("lookup", {"i":id}, "get", "theCocktailDB");
+    return res.drinks[0];
   }
 
 
