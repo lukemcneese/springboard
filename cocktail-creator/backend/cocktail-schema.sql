@@ -4,13 +4,12 @@ CREATE TABLE users (
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
   email TEXT NOT NULL
-    CHECK (position('@' IN email) > 1),
+    CHECK (position('@' IN email) > 1)
 );
 
 CREATE TABLE ratings (
   id SERIAL PRIMARY KEY,
-  username VARCHAR(25)
-    REFERENCES users ON DELETE CASCADE
   cocktail_id INTEGER NOT NULL,
-  rating INTEGER CHECK (rating >= 0)
+  rating INTEGER CHECK (rating >= 0),
+  username VARCHAR(25) REFERENCES users ON DELETE CASCADE
 );

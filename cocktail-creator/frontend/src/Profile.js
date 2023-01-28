@@ -1,14 +1,14 @@
 import React, {useState, useContext} from "react";
-import JoblyApi from "./JoblyApi";
+import CocktailAPI from "./CocktailAPI";
 import UserContext from "./UserContext";
 
   function Profile(){
-    const {currUser, setCurrUser} = useContext(UserContext)
+    const {currentUser, setCurrentUser} = useContext(UserContext)
     const [formData, setFormData] = useState({
-      firstName: currUser.firstName,
-      lastName: currUser.lastName,
-      email: currUser.email,
-      username: currUser.username,
+      firstName: currentUser.firstName,
+      lastName: currentUser.lastName,
+      email: currentUser.email,
+      username: currentUser.username,
       password: "",
     });
     const [formErrors, setFormErrors] = useState([]);
@@ -26,7 +26,7 @@ import UserContext from "./UserContext";
       let updatedUser;
   
       try {
-        updatedUser = await JoblyApi.saveProfile(username, profileData);
+        updatedUser = await CocktailAPI.saveProfile(username, profileData);
       } catch (errors) {
         setFormErrors(errors);
         return;
@@ -34,7 +34,7 @@ import UserContext from "./UserContext";
   
       setFormData(f => ({ ...f, password: "" }));
       setFormErrors([]);
-      setCurrUser(updatedUser);
+      setCurrentUser(updatedUser);
     }
       function handleChange(evt) {
         const { name, value } = evt.target;
@@ -43,7 +43,7 @@ import UserContext from "./UserContext";
       }
       return(
         <>
-        <h1>Register</h1>
+        <h1>Update Profile</h1>
           <div>
            <form onSubmit={handleSubmit}>
              <label htmlFor="username">Username</label>
@@ -87,7 +87,7 @@ import UserContext from "./UserContext";
                 onChange={handleChange}
              /><br/>
              {formErrors.length ? alert(formErrors) : null}
-            <button>Login</button>
+            <button>Update Profile</button>
            </form> 
           </div>
         </>

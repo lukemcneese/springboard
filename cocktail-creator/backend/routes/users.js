@@ -5,7 +5,7 @@
 const jsonschema = require("jsonschema");
 
 const express = require("express");
-const { ensureLoggedIn } = require("../auth");
+const { ensureLoggedIn, ensureUser } = require("../auth");
 const { BadRequestError } = require("../expressError");
 const User = require("../models/user");
 const { createToken } = require("../helpers/tokens");
@@ -14,16 +14,31 @@ const userUpdateSchema = require("../schemas/userUpdate.json");
 const router = express.Router();
 
 
+/** GET / => { users: [ {username, firstName, lastName, email }, ... ] }
+ *
+ * Returns list of all users.
+ *
+ * Authorization required: ensure that a user is logged in
+ **/
+
+ router.get("/", ensureLoggedIn, async function (req, res, next) {
+  try {
+    const users = await User.findAll();
+    return res.json({ users });
+  } catch (err) {
+    return next(err);
+  }
+});
+
 
 /** GET /[username] => { user }
  *
  * Returns { username, firstName, lastName}
- *   where jobs is { id, title, companyHandle, companyName, state }
  *
- * Authorization required: Logged in User
+ * Authorization required: ensure the user is requesting its own data
  **/
 
-router.get("/:username", ensureLoggedIn, async function (req, res, next) {
+router.get("/:username", ensureUser, async function (req, res, next) {
   try {
     const user = await User.get(req.params.username);
     return res.json({ user });
@@ -40,10 +55,10 @@ router.get("/:username", ensureLoggedIn, async function (req, res, next) {
  *
  * Returns { username, firstName, lastName, email}
  *
- * Authorization required: same-user-as-:username
+ * Authorization required: ensure the user is updating its own data
  **/
 
-router.patch("/:username", ensureLoggedIn, async function (req, res, next) {
+router.patch("/:username", ensureUser, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body, userUpdateSchema);
     if (!validator.valid) {
@@ -61,10 +76,10 @@ router.patch("/:username", ensureLoggedIn, async function (req, res, next) {
 
 /** DELETE /[username]  =>  { deleted: username }
  *
- * Authorization required: admin or same-user-as-:username
+ * Authorization required: ensure only the user can delete its record
  **/
 
-router.delete("/:username", ensureLoggedIn, async function (req, res, next) {
+router.delete("/:username", ensureUser, async function (req, res, next) {
   try {
     await User.remove(req.params.username);
     return res.json({ deleted: req.params.username });
@@ -72,24 +87,5 @@ router.delete("/:username", ensureLoggedIn, async function (req, res, next) {
     return next(err);
   }
 });
-
-
-/** POST /[username]/jobs/[id]  { state } => { application }
- *
- * Returns {"applied": jobId}
- *
- * Authorization required: admin or same-user-as-:username
- * */
-
-router.post("/:username/jobs/:id", ensureLoggedIn, async function (req, res, next) {
-  try {
-    const jobId = +req.params.id;
-    await User.applyToJob(req.params.username, jobId);
-    return res.json({ applied: jobId });
-  } catch (err) {
-    return next(err);
-  }
-});
-
 
 module.exports = router;

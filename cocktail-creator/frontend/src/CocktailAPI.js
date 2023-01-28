@@ -14,7 +14,7 @@ class CocktailAPI {
   // the token for interactive with the API will be stored here.
   static token;
 
-  static async request(endpoint, data = {}, method = "get", db = "theCocktailDB") {
+  static async request(endpoint, data = {}, method = "get", db="theCocktailDB") {
     console.debug("API Call:", endpoint, data, method);
 
     //there are multiple ways to pass an authorization token, this is how you pass it in the header.
@@ -27,11 +27,12 @@ class CocktailAPI {
             : {};
 
         try {
-        return (await axios({ url, method, data, params, headers })).data;
+        let response = (await axios({ url, method, data, params, headers })).data
+        return response;
         } catch (err) {
-        console.error("API Error:", err.response);
-        let message = err.response.data.error.message;
-        throw Array.isArray(message) ? message : [message];
+          console.error("API Error:", err.response);
+          let message = err.response.data.error.message;
+          throw Array.isArray(message) ? message : [message];
         }
     }else if (db === "theCocktailDB"){
         const cocktailUrl = "https://www.thecocktaildb.com/api/json/v2/"
@@ -65,7 +66,7 @@ class CocktailAPI {
     }
     let res = await this.request("search", {"s":name}, "get", "theCocktailDB");
     return res.drinks;
-    //eventually request the local DB as well and append the results
+    //eventually request the local DB as well and append the results and add some sort of rank??
   }
   static async getCocktail(id) {
     let res = await this.request("lookup", {"i":id}, "get", "theCocktailDB");
@@ -83,7 +84,7 @@ class CocktailAPI {
     return res.token;
   }
   static async getCurrentUser(username){
-    let res = await this.request(`users/${username}`, "cocktailCreatorDB");
+    let res = await this.request(`users/${username}`,{}, "get", "cocktailCreatorDB");
     return res.user;
   }
   static async saveProfile(username, data){

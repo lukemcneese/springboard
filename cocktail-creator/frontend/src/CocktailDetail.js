@@ -1,12 +1,9 @@
-//display details about a cocktail including preparation instructions, ingrediants with images
-//maybe go into a cocktail creation mode that renders ingrediants with an onclick that removes
-//them from the list or grays them out as you have used them.
-
 import React, {useState, useEffect} from "react"
 import { useParams } from "react-router-dom";
 import CocktailAPI from "./CocktailAPI";
 import LoadingSpinner from "./LoadingSpinner";
 import parse from "html-react-parser";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function CocktailDetail(){
     const {idDrink} = useParams();
@@ -31,7 +28,6 @@ function CocktailDetail(){
             ingredientHTML += `<td> ${cocktail[measureKey]}</td>`;
             ingredientHTML += "</tr>";
         }
-
         ingredientHTML += "</table>"
         return ingredientHTML;
 
@@ -40,14 +36,16 @@ function CocktailDetail(){
     if (!cocktail) return <LoadingSpinner />;
 
     return (
-        <>
-            <img src={`${cocktail.strDrinkThumb}`} alt={`${cocktail.strDrink}`} width="200px"/>
-            <h4>{cocktail.strDrink}</h4>
-            <p>Cateogry: {cocktail.strCategory}</p>
-            <p>Glass: {cocktail.strGlass}</p>
-            <p>{cocktail.strInstructions}</p>
-            {parse(renderIngredients())}
-        </>
+        <div className="card" style={{width: '18rem'}}>
+            <img src={`${cocktail.strDrinkThumb}`} alt={`${cocktail.strDrink}`} className="card-img-top"/>
+            <div className="card-body">
+                <h4 className="card-title">{cocktail.strDrink}</h4>
+                <p>Cateogry: {cocktail.strCategory}</p>
+                <p>Glass: {cocktail.strGlass}</p>
+                <p>{cocktail.strInstructions}</p>
+                {parse(renderIngredients())}
+            </div>
+        </div>
     );
 }
 export default CocktailDetail

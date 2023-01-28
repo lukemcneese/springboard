@@ -120,11 +120,12 @@ class User {
    **/
 
   static async get(username) {
+    console.log(username);
     const userRes = await db.query(
           `SELECT username,
                   first_name AS "firstName",
                   last_name AS "lastName",
-                  email,
+                  email
            FROM users
            WHERE username = $1`,
         [username],

@@ -3,7 +3,6 @@
 /** Routes for authentication. */
 
 const jsonschema = require("jsonschema");
-
 const User = require("../models/user");
 const express = require("express");
 const router = new express.Router();
@@ -54,7 +53,7 @@ router.post("/register", async function (req, res, next) {
       throw new BadRequestError(errs);
     }
 
-    const newUser = await User.register({ ...req.body, isAdmin: false });
+    const newUser = await User.register({ ...req.body});
     const token = createToken(newUser);
     return res.status(201).json({ token });
   } catch (err) {
