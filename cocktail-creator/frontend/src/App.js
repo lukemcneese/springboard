@@ -11,7 +11,6 @@ import UserContext from "./UserContext";
 import useLocalStorage from "./useLocalStorage";
 import jwt from "jsonwebtoken";
 import NavigationBar from "./NavigationBar";
-import TestNav from "./TestNav";
 
 // Key name for storing token in localStorage for "remember me" re-login
 export const TOKEN_STORAGE_ID = "cocktailCreator-token";

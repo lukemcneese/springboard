@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function NavigationBar({logout}) {
     const {currentUser} = useContext(UserContext)
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
 
     function loggedInNav(){
         return (<>
@@ -30,11 +30,10 @@ function NavigationBar({logout}) {
         </>);
     }
 
-    // <div style={{display: 'block', width: 550, padding: 30}}>
-    // <Navbar color="light">
+
     return (
-        <div>
-            <Navbar>
+        <div style={{display: 'block', width: 550, padding: 30}}>
+            <Navbar color="light" light expand="md">
                 <NavbarBrand href="/">Cocktail Creator</NavbarBrand>
                 <NavbarToggler onClick={() => { setIsOpen(!isOpen) }} />
                 <Collapse isOpen={isOpen} navbar>
