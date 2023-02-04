@@ -30,9 +30,9 @@ class Rating{
    static async getUsersRatings(username){
        const result = await db.query(
            ` SELECT id,
-                    cocktail_id AS "cocktailID",
-                    raitng,
-                    uesrname
+                    cocktail_id AS "cocktailId",
+                    rating,
+                    username
             FROM ratings
             WHERE username = $1`, [username]);
        return result.rows;
@@ -40,21 +40,23 @@ class Rating{
    static async get(id){
     const result = await db.query(
         ` SELECT id,
-                 cocktail_id AS "cocktailID",
-                 raitng,
-                 uesrname
+                 cocktail_id AS "cocktailId",
+                 rating,
+                 username
          FROM ratings
          WHERE id = $1`, [id]);
     return result.rows[0];
    }
-   //id, rating
-   static async update(id, rating){
+
+
+   static async update({id, rating}){
     const result = await db.query(
         ` UPDATE ratings
           SET rating = $1
-          WHERE id = $2,
+          WHERE id = $2
           RETURNING id,
-                    cocktail_id AS "cocktailID",
+                    cocktail_id AS "cocktailId",
+                    rating,
                     username`, [rating,id]);
     const newRating = result.rows[0];
     if (!newRating) throw new NotFoundError(`No Rating: ${id}`)

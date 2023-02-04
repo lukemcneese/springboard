@@ -2,12 +2,18 @@
 
 const db = require("../db.js");
 const User = require("../models/user");
+const Rating = require("../models/rating");
 const { createToken } = require("../helpers/tokens");
+
+const testRatingIds = [];
 
 
 async function commonBeforeAll() {
   // noinspection SqlWithoutWhere
   await db.query("DELETE FROM users");
+  // noinspection SqlWithoutWhere
+  await db.query("DELETE FROM ratings");
+
 
   await User.register({
     username: "u1",
@@ -30,7 +36,16 @@ async function commonBeforeAll() {
     email: "user3@user.com",
     password: "password3"
   });
-
+  testRatingIds[0] = (await Rating.create(
+    { cocktailId: 17222, username: "u1",rating: 4 })).id;
+  testRatingIds[1] = (await Rating.create(
+      { cocktailId: 17222, username: "u2",rating: 2 })).id;
+  testRatingIds[2] = (await Rating.create(
+      { cocktailId: 13501, username: "u1", rating: 5 })).id;
+  testRatingIds[3] = (await Rating.create(
+      { cocktailId: 13501, username: "u2", rating: 3 })).id;
+  testRatingIds[4] = (await Rating.create(
+      { cocktailId: 13501, username: "u1", rating: 1 })).id;
 }
 
 async function commonBeforeEach() {
@@ -58,5 +73,6 @@ module.exports = {
   commonAfterAll,
   u1Token,
   u2Token,
-  nonUserToken
+  nonUserToken,
+  testRatingIds
 };

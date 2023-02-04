@@ -10,7 +10,7 @@ async function commonBeforeAll() {
   // noinspection SqlWithoutWhere
   await db.query("DELETE FROM users");
   // noinspection SqlWithoutWhere
-  //await db.query("DELTE FROM ratings");
+  await db.query("DELETE FROM ratings");
 
   await db.query(`
         INSERT INTO users(username,
@@ -56,4 +56,5 @@ module.exports = {
   commonBeforeEach,
   commonAfterEach,
   commonAfterAll,
+  testRatingIds
 };

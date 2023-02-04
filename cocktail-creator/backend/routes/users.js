@@ -8,10 +8,13 @@ const express = require("express");
 const { ensureLoggedIn, ensureUser } = require("../auth");
 const { BadRequestError } = require("../expressError");
 const User = require("../models/user");
-const { createToken } = require("../helpers/tokens");
 const userUpdateSchema = require("../schemas/userUpdate.json");
+const ratings = require("./ratings");
 
 const router = express.Router();
+
+router.use('/:username/ratings', ratings)
+
 
 
 /** GET / => { users: [ {username, firstName, lastName, email }, ... ] }

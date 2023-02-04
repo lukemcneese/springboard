@@ -1,0 +1,28 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://our.company.com/newRating.schema.json",
+    "type": "object",
+    "properties": {
+      "cocktail_id": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 99999
+      },
+      "rating": {
+        "type": "integer",
+        "minimum": -1,
+        "maximum": 6
+      },
+      "username": {
+        "type": "string",
+        "minimum": 0
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "cocktail_id",
+      "rating",
+      "username"
+    ]
+  }
+  

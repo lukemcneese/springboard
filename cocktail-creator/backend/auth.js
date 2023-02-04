@@ -50,8 +50,10 @@ function ensureLoggedIn(req, res, next) {
 
  function ensureUser(req, res, next) {
   try {
+    //console.log("LocalUser",res.locals.user.username);
+    //console.log("Request User",req.params.username);
     const user = res.locals.user;
-    if (!(user && user.username === req.params.username)) {
+    if (!(user && (user.username === req.params.username))) {
       throw new UnauthorizedError();
     }
     return next();

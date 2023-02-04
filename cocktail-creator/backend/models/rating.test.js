@@ -28,3 +28,55 @@ describe("create", function () {
         });
       });
 });
+describe("getUsersRatings", function(){
+    test("works", async function(){
+        let ratings = await Rating.getUsersRatings("u1");
+        expect(ratings.length).toEqual(3)
+        ratings = await Rating.getUsersRatings("u2");
+        expect(ratings.length).toEqual(2)
+    })
+});
+
+describe("get", function(){
+    test("works", async function(){
+        let rating = await Rating.get(testRatingIds[0]);
+        expect(rating).toEqual({
+            id: expect.any(Number),
+            rating: expect.any(Number),
+            username: "u1",
+            cocktailId: expect.any(Number)
+        })
+    })
+});
+
+describe("update", function(){
+    const newRating = 4;
+    test("works", async function(){
+        let rating = await Rating.update({id: testRatingIds[0],rating:newRating});
+        expect(rating).toEqual({
+            id: expect.any(Number),
+            rating: newRating,
+            username: "u1",
+            cocktailId: expect.any(Number)
+        })
+    })
+});
+
+describe("remove", function () {
+    test("works", async function () {
+      await Rating.remove(testRatingIds[0]);
+      const res = await db.query(
+          "SELECT id FROM ratings WHERE id=$1", [testRatingIds[0]]);
+      expect(res.rows.length).toEqual(0);
+    });
+  
+    test("not found if no such job", async function () {
+      try {
+        await Rating.remove(0);
+        fail();
+      } catch (err) {
+        expect(err instanceof NotFoundError).toBeTruthy();
+      }
+    });
+  });
+  
