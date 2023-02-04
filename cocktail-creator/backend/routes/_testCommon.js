@@ -45,7 +45,7 @@ async function commonBeforeAll() {
   testRatingIds[3] = (await Rating.create(
       { cocktailId: 13501, username: "u2", rating: 3 })).id;
   testRatingIds[4] = (await Rating.create(
-      { cocktailId: 13501, username: "u1", rating: 1 })).id;
+      { cocktailId: 15721, username: "u1", rating: 1 })).id;
 }
 
 async function commonBeforeEach() {
