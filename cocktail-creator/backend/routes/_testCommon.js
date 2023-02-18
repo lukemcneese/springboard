@@ -3,9 +3,11 @@
 const db = require("../db.js");
 const User = require("../models/user");
 const Rating = require("../models/rating");
+const Inventory =require("../models/inventory");
 const { createToken } = require("../helpers/tokens");
 
 const testRatingIds = [];
+const testInventoryIds = [];
 
 
 async function commonBeforeAll() {
@@ -13,6 +15,8 @@ async function commonBeforeAll() {
   await db.query("DELETE FROM users");
   // noinspection SqlWithoutWhere
   await db.query("DELETE FROM ratings");
+  // noinspection SqlWithoutWhere
+  await db.query("DELETE FROM inventory");
 
 
   await User.register({
@@ -46,6 +50,18 @@ async function commonBeforeAll() {
       { cocktailId: 13501, username: "u2", rating: 3 })).id;
   testRatingIds[4] = (await Rating.create(
       { cocktailId: 15721, username: "u1", rating: 1 })).id;
+
+  testInventoryIds[0] = (await Inventory.create(
+    { ingredient: 'Gin',quantity:5, username: "u1"})).id;
+  testInventoryIds[1] = (await Inventory.create(
+      { ingredient: 'Scotch',quantity:3, username: "u2"})).id;
+  testInventoryIds[2] = (await Inventory.create(
+      { ingredient: 'Scotch',quantity:10, username: "u1"})).id;
+  testInventoryIds[3] = (await Inventory.create(
+      { ingredient: 'Bourbon',quantity:2, username: "u2"})).id;
+  testInventoryIds[4] = (await Inventory.create(
+      { ingredient: 'Bourbon',quantity:1, username: "u1"})).id;
+
 }
 
 async function commonBeforeEach() {
@@ -74,5 +90,6 @@ module.exports = {
   u1Token,
   u2Token,
   nonUserToken,
-  testRatingIds
+  testRatingIds,
+  testInventoryIds
 };

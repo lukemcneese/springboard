@@ -10,10 +10,12 @@ const { BadRequestError } = require("../expressError");
 const User = require("../models/user");
 const userUpdateSchema = require("../schemas/userUpdate.json");
 const ratings = require("./ratings");
+const inventories = require("./Inventories")
 
 const router = express.Router();
 
 router.use('/:username/ratings', ratings)
+router.use('/:username/inventories', inventories)
 
 
 

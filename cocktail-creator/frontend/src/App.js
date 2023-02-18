@@ -1,6 +1,7 @@
 import React,{useState, useEffect} from "react";
 import {Routes, Route, BrowserRouter} from "react-router-dom"
 import Cocktails from "./Cocktails";
+import Inventory from "./Inventory";
 import CocktailDetail from "./CocktailDetail";
 import CocktailAPI from "./CocktailAPI";
 import Home from "./Home";
@@ -117,6 +118,7 @@ function App() {
             <Route path="/profile" element={<Profile/>}/>
             <Route path="/cocktails/" element={<Cocktails/>}/>
             <Route path="/cocktails/:idDrink" element={<CocktailDetail/>} cantFind="/cocktails" />
+            <Route path="/inventory/" element={<Inventory/>}/>
           </Routes>
         </UserContext.Provider>
       </BrowserRouter>

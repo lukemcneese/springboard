@@ -54,14 +54,14 @@ class Rating{
               cocktail_id AS "cocktailId",
               rating,
               username
-      FROM ratings
-      WHERE (cocktail_id = $1 AND
-            username = $2)`, [cocktailId,username]);
+        FROM ratings
+        WHERE (cocktail_id = $1 
+        AND       username = $2)`, [cocktailId,username]);
     return result.rows[0];
   }
 
 
-   static async update({id, rating}){
+   static async update({rating, id}){
     const result = await db.query(
         ` UPDATE ratings
           SET rating = $1

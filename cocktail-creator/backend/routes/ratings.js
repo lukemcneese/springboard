@@ -49,7 +49,7 @@ const router = express.Router({ mergeParams: true });
         cocktailId:req.params.cocktailId, 
         username:req.params.username
       });
-    if (!rating) throw new BadRequestError(`No Rating for ${req.params.cocktailId} found`)
+    //if (!rating) throw new BadRequestError(`No Rating for ${req.params.cocktailId} found`)
     return res.json({ rating });
   } catch (err) {
     return next(err);
@@ -58,7 +58,7 @@ const router = express.Router({ mergeParams: true });
 
 
 /** GET /[id] =>
- *   { rating: { id, cokctailId, rating, username } }
+ *   { rating: { id, cocktailId, rating, username } }
  *
  * Authorization required: ensureLoggedIn
  */

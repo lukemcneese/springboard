@@ -1,0 +1,16 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://our.company.com/updateRating.schema.json",
+    "type": "object",
+    "properties": {
+      "quantity": {
+        "type": "integer",
+        "minimum": -1
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+      "quantity"
+    ]
+  }
+  

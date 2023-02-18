@@ -13,3 +13,10 @@ CREATE TABLE ratings (
   rating INTEGER CHECK (rating >= 0),
   username VARCHAR(25) REFERENCES users ON DELETE CASCADE
 );
+
+CREATE Table inventory (
+  id SERIAL PRIMARY KEY,
+  ingredient VARCHAR(25) NOT NULL,
+  quantity INTEGER CHECK (quantity > -1) NOT NULL,
+  username VARCHAR(25) REFERENCES users ON DELETE CASCADE
+);

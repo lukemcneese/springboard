@@ -4,6 +4,8 @@ import CocktailAPI from "./CocktailAPI";
 import LoadingSpinner from "./LoadingSpinner";
 import parse from "html-react-parser";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Rating from "./Rating";
+
 
 function CocktailDetail(){
     const {idDrink} = useParams();
@@ -36,14 +38,16 @@ function CocktailDetail(){
     if (!cocktail) return <LoadingSpinner />;
 
     return (
-        <div className="card" style={{width: '18rem'}}>
+        <div className="card justify-content-center" style={{width: '18rem'}}>
             <img src={`${cocktail.strDrinkThumb}`} alt={`${cocktail.strDrink}`} className="card-img-top"/>
             <div className="card-body">
                 <h4 className="card-title">{cocktail.strDrink}</h4>
-                <p>Cateogry: {cocktail.strCategory}</p>
-                <p>Glass: {cocktail.strGlass}</p>
-                <p>{cocktail.strInstructions}</p>
+                <p className="card-text">Cateogry: {cocktail.strCategory}</p>
+                <p className="card-text">Glass: {cocktail.strGlass}</p>
+                <p className="card-text">{cocktail.strInstructions}</p>
                 {parse(renderIngredients())}
+                <br/>
+                <Rating idDrink={cocktail.idDrink}/>
             </div>
         </div>
     );

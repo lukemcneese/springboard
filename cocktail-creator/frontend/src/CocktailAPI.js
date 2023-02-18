@@ -64,13 +64,33 @@ class CocktailAPI {
       let res =  await this.getRandom();
       return res;
     }
-    let res = await this.request("search", {"s":name}, "get", "theCocktailDB");
-    return res.drinks;
+    let searchResults = await this.request("search", {"s":name}, "get", "theCocktailDB");
+    searchResults = searchResults.drinks;
+    let resbyIngredient = await this.request("filter", {"i":name}, "get", "theCocktailDB");
+    for(let drink of resbyIngredient.drinks){
+      if(!searchResults.some(d => d['idDrink']=== drink.idDrink)){
+        const drinkDetails = await this.request("lookup", {"i":drink.idDrink}, "get", "theCocktailDB");
+        searchResults.push(drinkDetails.drinks[0])
+      }
+    }
+    return searchResults
     //eventually request the local DB as well and append the results and add some sort of rank??
   }
   static async getCocktail(id) {
     let res = await this.request("lookup", {"i":id}, "get", "theCocktailDB");
     return res.drinks[0];
+  }
+  static async getIngredients(){
+    let res = await this.request("list", {"i": "list"}, "get", "theCocktailDB");
+
+    //change the format of the Array of Ingredeints to match what is needed for the IngredientForm
+    let ingredientsArray = res.drinks;
+    ingredientsArray = ingredientsArray.map(item =>{
+      const container = {};
+      container["label"] = item.strIngredient1;
+      return container;
+    })
+    return ingredientsArray;
   }
 
 
@@ -111,15 +131,37 @@ class CocktailAPI {
     let res = await this.request(`users/${username}/ratings/cocktails/${cocktailId}`, {}, "get", "cocktailCreatorDB")
     return res.rating;
   }
-  static async updateRating(username,id, data){
-    let res = await this.request(`users/${username}/ratings/${id}`,data, "patch", "cocktailCreatorDB")
+  static async updateRating(username,id, rating){
+    let res = await this.request(`users/${username}/ratings/${id}`,rating, "patch", "cocktailCreatorDB")
     return res.rating;
   }
   static async deleteRating(username,id){
     let res = await this.request(`users/${username}/ratings/${id}`,{}, "delete", "cocktailCreatorDB")
-    return res.rating;
+    return res;
   }
 
+    /** Handles Inventory API Calls */
+  static async createInventory(username, data){
+    let res = await this.request(`users/${username}/inventories`,data, "post", "cocktailCreatorDB")
+    return res.inventory;
+  }
+  static async getUserInventory(username){
+    let res = await this.request(`users/${username}/inventories/`,{}, "get", "cocktailCreatorDB")
+    return res.inventories;
+  }
+  static async getUserIngredientQuantity(username, ingredient){
+    let res = await this.request(`users/${username}/inventories/ingredient/${ingredient}`, {}, "get", "cocktailCreatorDB")
+    return res.inventory;
+  }
+
+  static async updateInventory(username,id, quantity){
+    let res = await this.request(`users/${username}/inventories/${id}`,{quantity}, "patch", "cocktailCreatorDB")
+    return res.inventory;
+  }
+  static async deleteInventory(username,id){
+    let res = await this.request(`users/${username}/inventories/${id}`,{}, "delete", "cocktailCreatorDB")
+    return res;
+  }
 }
 
 //("testuser" / "password" on class)

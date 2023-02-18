@@ -3,6 +3,7 @@ import Cocktail from "./Cocktail"
 import CocktailAPI from "./CocktailAPI";
 import SearchForm from "./SearchForm";
 import LoadingSpinner from "./LoadingSpinner"
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Cocktails(){
     const [cocktails, setCocktails] = useState([])
@@ -22,16 +23,19 @@ function Cocktails(){
             <SearchForm searchFor={search} />
              {cocktails.length
                 ? 
-                (<div>
-                    {cocktails.map(({idDrink, strDrink, strDrinkThumb, strCategory}) =>(
-                    <Cocktail 
-                        key={idDrink}
-                        idDrink = {idDrink} 
-                        strDrink={strDrink}
-                        strDrinkThumb={strDrinkThumb}
-                        strCategory={strCategory}
-                    />
-                ))} </div>) : <p> No Results Found</p>}
+                (<div className="container-fluid">
+                    <div className="row">
+                        {cocktails.map(({idDrink, strDrink, strDrinkThumb, strCategory}) =>(
+                        <Cocktail
+                            key={idDrink}
+                            idDrink = {idDrink} 
+                            strDrink={strDrink}
+                            strDrinkThumb={strDrinkThumb}
+                            strCategory={strCategory}
+                        />
+                        ))} 
+                    </div>
+                </div>) : <p> No Results Found</p>}
         </>
       );
   }

@@ -1,5 +1,5 @@
 import React, {useState, useContext} from "react";
-import { NavLink, Navbar, Nav, NavItem,NavbarToggler, Collapse, NavbarBrand } from "reactstrap";
+import { NavLink, Navbar, Nav, NavItem,NavbarToggler, Collapse, NavbarBrand } from 'reactstrap';
 import UserContext from "./UserContext";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -10,6 +10,9 @@ function NavigationBar({logout}) {
 
     function loggedInNav(){
         return (<>
+            <NavItem>
+                <NavLink href="/inventory">Inventory</NavLink>
+            </NavItem>
             <NavItem>
                 <NavLink href="/profile">Profile</NavLink>
             </NavItem>
@@ -32,10 +35,10 @@ function NavigationBar({logout}) {
 
 
     return (
-        <div style={{display: 'block', width: 550, padding: 30}}>
+        <div style={{display: 'block', width: 700, padding: 30}}>
             <Navbar color="light" light expand="md">
-                <NavbarBrand href="/">Cocktail Creator</NavbarBrand>
-                <NavbarToggler onClick={() => { setIsOpen(!isOpen) }} />
+                <NavbarBrand href="/" className="me-auto">Cocktail Creator</NavbarBrand>
+                <NavbarToggler onClick={() => { setIsOpen(!isOpen)}} className="me-2"/>
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto" navbar>
                         <NavItem>

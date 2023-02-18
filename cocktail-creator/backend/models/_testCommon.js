@@ -4,6 +4,7 @@ const db = require("../db.js");
 const { BCRYPT_WORK_FACTOR } = require("../config");
 
 const testRatingIds = [];
+const testInventoryIds = [];
 
 
 async function commonBeforeAll() {
@@ -11,6 +12,9 @@ async function commonBeforeAll() {
   await db.query("DELETE FROM users");
   // noinspection SqlWithoutWhere
   await db.query("DELETE FROM ratings");
+  // noinspection SqlWithoutWhere
+  await db.query("DELETE FROM inventory");
+
 
   await db.query(`
         INSERT INTO users(username,
@@ -36,6 +40,18 @@ async function commonBeforeAll() {
               (17255, 'u1', 1)
       RETURNING id`);
   testRatingIds.splice(0,0, ...resultsRatings.rows.map(r =>r.id));
+
+  const resultsInventory = await db.query(`
+      INSERT INTO inventory(ingredient,
+                            quantity,
+                            username)
+      VALUES  ('Gin'     ,5,  'u1'),
+              ('Scotch'  ,3,  'u2'),
+              ('Scotch'  ,10, 'u1'),
+              ('Bourbon' ,2,  'u2'),
+              ('Bourbon' ,1,  'u1')
+      RETURNING id;`);
+    testInventoryIds.splice(0,0, ...resultsInventory.rows.map(i =>i.id));
 }
 
 async function commonBeforeEach() {
@@ -56,5 +72,6 @@ module.exports = {
   commonBeforeEach,
   commonAfterEach,
   commonAfterAll,
-  testRatingIds
+  testRatingIds,
+  testInventoryIds
 };

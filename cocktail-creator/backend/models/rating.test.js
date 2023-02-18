@@ -59,8 +59,8 @@ describe("get", function(){
 describe("update", function(){
     const newRating = 4;
     test("works", async function(){
-        let rating = await Rating.update({id: testRatingIds[0],rating:newRating});
-        expect(rating).toEqual({
+        let r = await Rating.update({id: testRatingIds[0],rating:newRating});
+        expect(r).toEqual({
             id: expect.any(Number),
             rating: newRating,
             username: "u1",
