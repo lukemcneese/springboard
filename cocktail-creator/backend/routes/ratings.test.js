@@ -80,6 +80,31 @@ describe("POST /users/:username/ratings", function () {
   });
 
 });
+/************************************** GET /ratings/cocktails/:cocktailID */
+
+/** GET /cocktails/[cocktailId] =>
+ *   { rating: { id, cocktailId, rating, username } }
+ *
+ * Authorization required: ensureUser
+ */
+
+ describe("GET users/:username/ratings/cocktails/:cocktailId", function () {
+  test("works", async function () {
+    const resp = await request(app)
+      .get(`/users/u1/ratings/cocktails/17222`)
+      .set("authorization", `Bearer ${u1Token}`);
+    expect(resp.body).toEqual({
+      rating: {
+        id: testRatingIds[0],
+        cocktailId: 17222,
+        username: "u1",
+        rating: 4
+      }
+    });
+  });
+});
+
+
 
 /************************************** GET /ratings/:id */
 describe("GET users/:username/ratings/:id", function () {
@@ -103,6 +128,7 @@ describe("GET users/:username/ratings/:id", function () {
     expect(resp.statusCode).toEqual(400);
   });
 });
+
 
 /************************************** GET /ratings */
 describe("GET users/:username/ratings/", function () {

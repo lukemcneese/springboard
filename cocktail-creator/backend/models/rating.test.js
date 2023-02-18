@@ -37,6 +37,13 @@ describe("getUsersRatings", function(){
     })
 });
 
+describe("getUserCocktailRating", function(){
+  test("works", async function(){
+      let rating = await Rating.getUserCocktailRating({username:"u1",cocktailId: 17222});
+      expect(rating.rating).toEqual(4)
+  })
+});
+
 describe("get", function(){
     test("works", async function(){
         let rating = await Rating.get(testRatingIds[0]);

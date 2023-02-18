@@ -1,12 +1,12 @@
 "use strict";
 
-/** Routes for jobs. */
+/** Routes for ratings. */
 
 const jsonschema = require("jsonschema");
 
 const express = require("express");
 const { BadRequestError } = require("../expressError");
-const { ensureUser, ensureLoggedIn } = require("../auth");
+const { ensureUser, ensureLoggedIn} = require("../auth");
 const Rating = require("../models/rating");
 const ratingNewSchema = require("../schemas/ratingNew.json");
 const ratingUpdateSchema = require("../schemas/ratingUpdate.json")
@@ -32,6 +32,25 @@ const router = express.Router({ mergeParams: true });
 
     const rating = await Rating.create(req.body);
     return res.status(201).json({ rating });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+
+/** GET /cocktails/[cocktailId] =>
+ *   { rating: { id, cocktailId, rating, username } }
+ *
+ * Authorization required: ensureUser
+ */
+ router.get("/cocktails/:cocktailId", ensureUser, async function (req, res, next) {
+  try {
+    const rating = await Rating.getUserCocktailRating({
+        cocktailId:req.params.cocktailId, 
+        username:req.params.username
+      });
+    if (!rating) throw new BadRequestError(`No Rating for ${req.params.cocktailId} found`)
+    return res.json({ rating });
   } catch (err) {
     return next(err);
   }

@@ -94,7 +94,31 @@ class CocktailAPI {
 
 
   /** Handles Rating API Calls */
-  static async createRating(username)
+  static async createRating(username, data){
+    let res = await this.request(`users/${username}/ratings`,data, "post", "cocktailCreatorDB")
+    return res.rating;
+  }
+
+  static async getRating(username,id){
+    let res = await this.request(`users/${username}/ratings/${id}`,{}, "get", "cocktailCreatorDB")
+    return res.rating;
+  }
+  static async getUserRatings(username){
+    let res = await this.request(`users/${username}/ratings/`,{}, "get", "cocktailCreatorDB")
+    return res.ratings;
+  }
+  static async getUserCocktailRating(username, cocktailId){
+    let res = await this.request(`users/${username}/ratings/cocktails/${cocktailId}`, {}, "get", "cocktailCreatorDB")
+    return res.rating;
+  }
+  static async updateRating(username,id, data){
+    let res = await this.request(`users/${username}/ratings/${id}`,data, "patch", "cocktailCreatorDB")
+    return res.rating;
+  }
+  static async deleteRating(username,id){
+    let res = await this.request(`users/${username}/ratings/${id}`,{}, "delete", "cocktailCreatorDB")
+    return res.rating;
+  }
 
 }
 
